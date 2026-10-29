@@ -1,0 +1,1914 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full bg-slate-950 text-slate-100">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Cosmic Computational Engine of Sanskrit</title>
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Fonts: Inter, JetBrains Mono, & Noto Serif Devanagari -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&family=Noto+Serif+Devanagari:wght@400;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            cosmic: {
+              void: '#03030a',
+              deep: '#08081a',
+              panel: '#0e0e28',
+              border: '#1a1a46',
+              gold: '#ffd700',
+              cyan: '#00f3ff',
+              magenta: '#bd00ff',
+              rose: '#ff0055',
+              emerald: '#10b981'
+            }
+          },
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace'],
+            serif: ['Noto Serif Devanagari', 'serif'],
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    /* Custom Scrollbars */
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: #03030a; }
+    ::-webkit-scrollbar-thumb { background: #1a1a46; border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: #00f3ff; }
+
+    /* Glow utilities */
+    .glow-gold { box-shadow: 0 0 15px -2px rgba(255, 215, 0, 0.35); }
+    .glow-cyan { box-shadow: 0 0 15px -2px rgba(0, 243, 255, 0.35); }
+    .glow-magenta { box-shadow: 0 0 15px -2px rgba(189, 0, 255, 0.35); }
+
+    .text-glow-gold { text-shadow: 0 0 10px rgba(255, 215, 0, 0.5); }
+    .text-glow-cyan { text-shadow: 0 0 10px rgba(0, 243, 255, 0.5); }
+
+    /* JSON Syntax Highlight Styling */
+    .json-key { color: #bd00ff; }
+    .json-string { color: #00f3ff; }
+    .json-number { color: #ffd700; }
+    .json-boolean { color: #ff0055; }
+    .json-null { color: #94a3b8; }
+
+    /* Starfield Canvas Background */
+    #starfieldCanvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    /* Tab active states */
+    .tab-btn.active {
+      background: linear-gradient(135deg, rgba(0, 243, 255, 0.15), rgba(189, 0, 255, 0.15));
+      border-color: #00f3ff;
+      color: #00f3ff;
+      box-shadow: 0 0 12px rgba(0, 243, 255, 0.25);
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col font-sans bg-cosmic-void text-slate-100 antialiased selection:bg-cosmic-cyan selection:text-slate-950 overflow-x-hidden">
+
+  <!-- BACKGROUND STARFIELD CANVAS -->
+  <canvas id="starfieldCanvas"></canvas>
+
+  <!-- MAIN APP CONTAINER -->
+  <div class="relative z-10 flex flex-col min-h-screen">
+
+    <!-- HEADER / NAVIGATION DECK -->
+    <header class="border-b border-cosmic-border bg-cosmic-deep/90 backdrop-blur-md sticky top-0 z-50">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+        
+        <!-- Brand Title -->
+        <div class="flex items-center space-x-3">
+          <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-cosmic-gold via-cosmic-magenta to-cosmic-cyan p-0.5 shadow-lg glow-gold">
+            <div class="w-full h-full bg-cosmic-void rounded-[10px] flex items-center justify-center font-serif text-2xl font-bold text-cosmic-gold">
+              ॐ
+            </div>
+          </div>
+          <div>
+            <div class="flex items-center gap-2">
+              <h1 class="text-lg sm:text-xl font-bold tracking-tight text-slate-100 flex items-center gap-2 font-sans">
+                The Cosmic Computational Engine of Sanskrit
+              </h1>
+              <span class="px-2 py-0.5 text-[10px] font-mono bg-cosmic-cyan/10 border border-cosmic-cyan/30 text-cosmic-cyan rounded-md font-semibold">
+                240+ Dhātus • Pāṇini Engine
+              </span>
+            </div>
+            <p class="text-xs text-slate-400 font-mono">
+              Generative Dhātu Matrix • Vibhakti & Sandhi Lab • Aṣṭādhyāyī Transducer
+            </p>
+          </div>
+        </div>
+
+        <!-- Global Quick Stats Banner -->
+        <div class="flex items-center gap-2 text-xs font-mono">
+          <div class="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-lg bg-cosmic-panel/80 border border-cosmic-border">
+            <i class="fa-solid fa-seedling text-cosmic-cyan"></i>
+            <span class="text-slate-400">Master Dhātus: <strong class="text-cosmic-gold">240+</strong></span>
+          </div>
+          <div class="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-lg bg-cosmic-panel/80 border border-cosmic-border">
+            <i class="fa-solid fa-layer-group text-cosmic-magenta"></i>
+            <span class="text-slate-400">Upasargas: <strong class="text-cosmic-cyan">22</strong></span>
+          </div>
+          <div class="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-cosmic-panel/80 border border-cosmic-border">
+            <i class="fa-solid fa-infinity text-cosmic-gold"></i>
+            <span class="text-slate-400">Combinations: <strong class="text-cosmic-gold">186,000+</strong></span>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB NAVIGATION MENU -->
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-1 overflow-x-auto">
+        <nav class="flex space-x-2 pb-2 text-xs font-mono border-t border-cosmic-border/50 pt-2" id="navTabs">
+          <button onclick="switchTab('tab-dhatu-master')" id="btn-tab-dhatu-master" class="tab-btn active px-3.5 py-2 rounded-lg bg-cosmic-panel border border-cosmic-border text-slate-300 hover:border-cosmic-cyan/50 transition-all flex items-center gap-2 whitespace-nowrap">
+            <i class="fa-solid fa-cubes text-cosmic-gold"></i>
+            <span>1. Master Dhātu Matrix (240+)</span>
+          </button>
+
+          <button onclick="switchTab('tab-dhatu-lab')" id="btn-tab-dhatu-lab" class="tab-btn px-3.5 py-2 rounded-lg bg-cosmic-panel border border-cosmic-border text-slate-300 hover:border-cosmic-cyan/50 transition-all flex items-center gap-2 whitespace-nowrap">
+            <i class="fa-solid fa-flask text-cosmic-magenta"></i>
+            <span>2. Upasarga Lab (√gam & √vṛt)</span>
+          </button>
+
+          <button onclick="switchTab('tab-vibhakti-sandhi')" id="btn-tab-vibhakti-sandhi" class="tab-btn px-3.5 py-2 rounded-lg bg-cosmic-panel border border-cosmic-border text-slate-300 hover:border-cosmic-cyan/50 transition-all flex items-center gap-2 whitespace-nowrap">
+            <i class="fa-solid fa-[#10b981] fa-wand-magic-sparkles text-emerald-400"></i>
+            <span>3. Vibhakti & Sandhi Lab</span>
+          </button>
+
+          <button onclick="switchTab('tab-sound')" id="btn-tab-sound" class="tab-btn px-3.5 py-2 rounded-lg bg-cosmic-panel border border-cosmic-border text-slate-300 hover:border-cosmic-cyan/50 transition-all flex items-center gap-2 whitespace-nowrap">
+            <i class="fa-solid fa-wave-square text-cosmic-cyan"></i>
+            <span>4. Svara & Vyañjana Matrix</span>
+          </button>
+
+          <button onclick="switchTab('tab-grammar')" id="btn-tab-grammar" class="tab-btn px-3.5 py-2 rounded-lg bg-cosmic-panel border border-cosmic-border text-slate-300 hover:border-cosmic-cyan/50 transition-all flex items-center gap-2 whitespace-nowrap">
+            <i class="fa-solid fa-table-cells text-cosmic-gold"></i>
+            <span>5. Grammar Paradigms</span>
+          </button>
+
+          <button onclick="switchTab('tab-lexicon')" id="btn-tab-lexicon" class="tab-btn px-3.5 py-2 rounded-lg bg-cosmic-panel border border-cosmic-border text-slate-300 hover:border-cosmic-cyan/50 transition-all flex items-center gap-2 whitespace-nowrap">
+            <i class="fa-solid fa-book-journal-whills text-cosmic-cyan"></i>
+            <span>6. 186K Lexicon & Infinity</span>
+          </button>
+
+          <button onclick="switchTab('tab-schema')" id="btn-tab-schema" class="tab-btn px-3.5 py-2 rounded-lg bg-cosmic-panel border border-cosmic-border text-slate-300 hover:border-cosmic-cyan/50 transition-all flex items-center gap-2 whitespace-nowrap">
+            <i class="fa-solid fa-code text-cosmic-magenta"></i>
+            <span>7. Pāṇinian Transducer</span>
+          </button>
+        </nav>
+      </div>
+    </header>
+
+    <!-- MAIN BODY CONTENT -->
+    <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6">
+
+      <!-- ============================================================== -->
+      <!-- TAB 1: MASTER DHĀTU MATRIX (240+ ROOTS ACROSS 16 CATEGORIES) -->
+      <!-- ============================================================== -->
+      <section id="tab-dhatu-master" class="tab-content space-y-6">
+        
+        <div class="rounded-2xl bg-cosmic-panel/90 border border-cosmic-border p-6 shadow-xl relative overflow-hidden">
+          <div class="absolute -right-10 -bottom-10 w-48 h-48 bg-cosmic-gold/10 rounded-full blur-2xl"></div>
+          <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+            <div>
+              <h2 class="text-xl font-bold text-slate-100 flex items-center gap-2">
+                <i class="fa-solid fa-cubes text-cosmic-gold"></i> The Master List of Sanskrit Roots (240+ Dhātus)
+              </h2>
+              <p class="text-xs text-slate-300 mt-1 leading-relaxed max-w-4xl">
+                Explore over 240 elemental verb roots (*Dhātus*) categorized across 16 cosmic, physical, and metaphysical domains. Filter by category or search instantly across Devanagari, IAST, or English meanings.
+              </p>
+            </div>
+            <!-- Search & Filter Controls -->
+            <div class="flex flex-col sm:flex-row gap-2 font-mono text-xs">
+              <input 
+                type="text" 
+                id="dhatuSearchInput" 
+                placeholder="Search root (e.g. gam, go, light, 20)..."
+                class="bg-cosmic-void border border-cosmic-border rounded-xl px-3.5 py-2 text-cosmic-cyan focus:border-cosmic-cyan outline-none w-full sm:w-64"
+                oninput="filterMasterDhatus()"
+              >
+              <select id="dhatuCategorySelect" onchange="filterMasterDhatus()" class="bg-cosmic-void border border-cosmic-border rounded-xl px-3 py-2 text-cosmic-gold focus:border-cosmic-gold outline-none">
+                <option value="ALL">All 16 Categories (240+ Roots)</option>
+                <option value="Movement">1. Movement, Going, & Flowing</option>
+                <option value="Speaking">2. Speaking, Sound, & Expression</option>
+                <option value="Thinking">3. Thinking, Knowing, & Perceiving</option>
+                <option value="Action">4. Action, Creation, & Giving</option>
+                <option value="Being">5. Being, Living, & Growing</option>
+                <option value="Body">6. Rest, Consumption, & Body</option>
+                <option value="Celestial">7. Light, Stars, & Splendor</option>
+                <option value="TimeSpace">8. Time, Space, & Cosmic Order</option>
+                <option value="Elements">9. Fire, Wind, & Akasha</option>
+                <option value="Ocean">10. Water, Ocean, & Floods</option>
+                <option value="Soul">11. Absolute Being, Void, & Soul</option>
+                <option value="Power">12. Power, Destruction, & Transformation</option>
+                <option value="Ships">13. Ships, Navigation, & Safe Passage</option>
+                <option value="Propulsion">14. Winds, Sails, & Propulsion</option>
+                <option value="Landings">15. Landings, Horizons, & Continents</option>
+                <option value="Interstellar">16. Spatial & Interstellar Paths</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- Dynamic Dhātu Grid Container -->
+        <div class="space-y-6" id="masterDhatuCategoryList">
+          <!-- Populated dynamically via JS -->
+        </div>
+
+      </section>
+
+      <!-- ============================================================== -->
+      <!-- TAB 2: UPASARGA LAB (√gam & √vṛt Focus) -->
+      <!-- ============================================================== -->
+      <section id="tab-dhatu-lab" class="tab-content hidden space-y-6">
+        
+        <div class="rounded-2xl bg-cosmic-panel/90 border border-cosmic-border p-6 shadow-xl relative overflow-hidden">
+          <div class="absolute -right-10 -bottom-10 w-48 h-48 bg-cosmic-magenta/10 rounded-full blur-2xl"></div>
+          <h2 class="text-xl font-bold text-slate-100 flex items-center gap-2">
+            <i class="fa-solid fa-flask text-cosmic-magenta"></i> Interactive Upasarga Laboratory (√gam & √vṛt)
+          </h2>
+          <p class="text-xs text-slate-300 mt-1 leading-relaxed max-w-4xl">
+            Sanskrit uses 22 prepositional prefixes (*Upasargas*) as semantic operators. Test how attaching spatial prefixes onto core roots like **√गम् (gam = to go)** and **√वृत् (vṛt = to turn)** shifts their meaning from physical movement to deep philosophical abstraction.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+
+          <!-- Left Interactive Controls -->
+          <div class="lg:col-span-5 space-y-5">
+            
+            <div class="rounded-2xl bg-cosmic-panel/90 border border-cosmic-border p-5 space-y-3">
+              <label class="text-xs font-mono font-semibold uppercase text-cosmic-gold block flex items-center gap-2">
+                <i class="fa-solid fa-seedling"></i> Select Core Dhātu
+              </label>
+              <div class="grid grid-cols-2 gap-2 font-mono text-xs">
+                <button onclick="selectLabDhatu('gam')" id="labBtn-gam" class="p-3 rounded-xl bg-cosmic-void border border-cosmic-cyan text-cosmic-cyan font-bold text-left hover:border-cosmic-cyan transition-all">
+                  <span class="font-serif text-base block">√गम् (gam)</span>
+                  <span class="text-[10px] text-slate-400 font-normal">To go / move</span>
+                </button>
+                <button onclick="selectLabDhatu('vrt')" id="labBtn-vrt" class="p-3 rounded-xl bg-cosmic-void border border-cosmic-border text-slate-300 text-left hover:border-cosmic-cyan transition-all">
+                  <span class="font-serif text-base block">√वृत् (vṛt)</span>
+                  <span class="text-[10px] text-slate-400 font-normal">To turn / revolve</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Upasarga Interactive Selector -->
+            <div class="rounded-2xl bg-cosmic-panel/90 border border-cosmic-border p-5 space-y-3">
+              <span class="text-xs font-mono font-semibold uppercase text-cosmic-cyan block flex items-center gap-2">
+                <i class="fa-solid fa-compass"></i> Select Prefix (Upasarga Vector)
+              </span>
+              <div class="grid grid-cols-2 gap-2 text-xs font-mono" id="labUpasargaButtons">
+                <!-- Populated dynamically based on root selection -->
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Right Synthesis Output & Deduction Card -->
+          <div class="lg:col-span-7 space-y-5">
+            
+            <div class="rounded-2xl bg-slate-900 border border-cosmic-magenta/40 p-6 shadow-xl space-y-4 glow-magenta">
+              <div class="flex items-center justify-between border-b border-cosmic-border pb-3">
+                <span class="text-xs font-mono text-cosmic-magenta font-bold flex items-center gap-2">
+                  <i class="fa-solid fa-microchip"></i> Semantic Deduction Output
+                </span>
+                <span class="text-xs font-mono text-cosmic-gold" id="labFormulaText">Anu + √gam → Anugacchati</span>
+              </div>
+
+              <div class="space-y-3">
+                <div class="flex items-baseline gap-3">
+                  <span class="text-3xl font-serif font-bold text-cosmic-gold" id="labOutputDeva">अनुगच्छति</span>
+                  <span class="text-xl font-mono text-cosmic-cyan" id="labOutputIAST">Anugacchati</span>
+                </div>
+
+                <div class="p-4 rounded-xl bg-cosmic-void border border-cosmic-border space-y-2 font-mono text-xs">
+                  <div class="flex justify-between border-b border-cosmic-border/50 pb-1 text-slate-400">
+                    <span>Literal Logic:</span>
+                    <span class="text-cosmic-cyan font-bold" id="labLiteralLogic">Anu (after/behind) + Gam (go)</span>
+                  </div>
+                  <div class="flex justify-between border-b border-cosmic-border/50 pb-1 text-slate-400">
+                    <span>English Translation:</span>
+                    <span class="text-emerald-400 font-bold text-sm" id="labEnglishMeaning">To follow / go after someone</span>
+                  </div>
+                  <p class="text-slate-300 leading-relaxed text-[11px] pt-1" id="labPhilosophicalNote">
+                    By going behind someone on a path, you are literally "following" them.
+                  </p>
+                </div>
+              </div>
+
+              <!-- Quick Root Matrix Summary -->
+              <div class="pt-3 border-t border-cosmic-border space-y-2">
+                <span class="text-xs font-mono text-slate-400 block font-semibold">
+                  Complete Prefix Spectrum for <span id="labRootTitle" class="text-cosmic-gold">√gam</span>:
+                </span>
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 text-xs font-mono" id="labSpectrumCards">
+                  <!-- Populated dynamically -->
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </section>
+
+      <!-- ============================================================== -->
+      <!-- TAB 3: VIBHAKTI (8 CASES) & SANDHI LAB -->
+      <!-- ============================================================== -->
+      <section id="tab-vibhakti-sandhi" class="tab-content hidden space-y-6">
+        
+        <div class="rounded-2xl bg-cosmic-panel/90 border border-cosmic-border p-6 shadow-xl relative overflow-hidden">
+          <div class="absolute -right-10 -bottom-10 w-48 h-48 bg-emerald-500/10 rounded-full blur-2xl"></div>
+          <h2 class="text-xl font-bold text-slate-100 flex items-center gap-2">
+            <i class="fa-solid fa-wand-magic-sparkles text-emerald-400"></i> Noun Declensions (8 Vibhaktis) & Sandhi Blending Lab
+          </h2>
+          <p class="text-xs text-slate-300 mt-1 leading-relaxed max-w-4xl">
+            Sanskrit encodes prepositions directly into noun endings (*Vibhakti*) and fuses word boundaries into smooth phonetic glides (*Sandhi*). Practice building flawless sentences like **"Ātmā samudram saṃtarati"** and translating case mutations.
+          </p>
+        </div>
+
+        <!-- 8 VIBHAKTI CASE MATRIX FOR SAMUDRA -->
+        <div class="rounded-2xl bg-cosmic-panel/90 border border-cosmic-border p-6 shadow-xl space-y-4">
+          <div class="flex items-center justify-between border-b border-cosmic-border pb-3">
+            <h3 class="text-sm font-bold text-slate-100 flex items-center gap-2 font-mono">
+              <i class="fa-solid fa-table-list text-emerald-400"></i> The 8 Vibhakti Case Mutations for समुद्र (Samudra = Ocean)
+            </h3>
+            <span class="text-xs font-mono text-cosmic-gold">Masculine 'a'-stem noun</span>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 text-xs font-mono">
+            <div class="p-3 rounded-xl bg-cosmic-void border border-cosmic-border space-y-1">
+              <span class="text-slate-500 block text-[10px]">1. Nominative (Subject)</span>
+              <span class="text-sm font-bold font-serif text-cosmic-gold">समुद्रः (Samudraḥ)</span>
+              <span class="text-[10px] text-slate-400 block">"The ocean (acts)"</span>
+            </div>
+            <div class="p-3 rounded-xl bg-cosmic-void border border-cosmic-border space-y-1">
+              <span class="text-slate-500 block text-[10px]">2. Accusative (Direct Object)</span>
+              <span class="text-sm font-bold font-serif text-cosmic-cyan">समुद्रम् (Samudram)</span>
+              <span class="text-[10px] text-slate-400 block">"To / across the ocean"</span>
+            </div>
+            <div class="p-3 rounded-xl bg-cosmic-void border border-cosmic-border space-y-1">
+              <span class="text-slate-500 block text-[10px]">3. Instrumental (By/With)</span>
+              <span class="text-sm font-bold font-serif text-emerald-400">समुद्रेण (Samudreṇa)</span>
+              <span class="text-[10px] text-slate-400 block">"By means of the ocean"</span>
+            </div>
+            <div class="p-3 rounded-xl bg-cosmic-void border border-cosmic-border space-y-1">
+              <span class="text-slate-500 block text-[10px]">4. Dative (For/To)</span>
+              <span class="text-sm font-bold font-serif text-cosmic-magenta">समुद्राय (Samudrāya)</span>
+              <span class="text-[10px] text-slate-400 block">"For/toward the ocean"</span>
+            </div>
+            <div class="p-3 rounded-xl bg-cosmic-void border border-cosmic-border space-y-1">
+              <span class="text-slate-500 block text-[10px]">5. Ablative (From/Because)</span>
+              <span class="text-sm font-bold font-serif text-cosmic-gold">समुद्रात् (Samudrāt)</span>
+              <span class="text-[10px] text-slate-400 block">"From the ocean"</span>
+            </div>
+            <div class="p-3 rounded-xl bg-cosmic-void border border-cosmic-border space-y-1">
+              <span class="text-slate-500 block text-[10px]">6. Genitive (Of / Possession)</span>
+              <span class="text-sm font-bold font-serif text-cosmic-cyan">समुद्रस्य (Samudrasya)</span>
+              <span class="text-[10px] text-slate-400 block">"Of the ocean"</span>
+            </div>
+            <div class="p-3 rounded-xl bg-cosmic-void border border-cosmic-border space-y-1">
+              <span class="text-slate-500 block text-[10px]">7. Locative (In / On / At)</span>
+              <span class="text-sm font-bold font-serif text-emerald-400">समुद्रे (Samudre)</span>
+              <span class="text-[10px] text-slate-400 block">"In / on the ocean"</span>
+            </div>
+            <div class="p-3 rounded-xl bg-cosmic-void border border-cosmic-border space-y-1">
+              <span class="text-slate-500 block text-[10px]">8. Vocative (Address)</span>
+              <span class="text-sm font-bold font-serif text-cosmic-rose">हे समुद्र! (He Samudra!)</span>
+              <span class="text-[10px] text-slate-400 block">"O Ocean!"</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- SANDHI TYPES & SENTENCE BUILDER GRID -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+
+          <!-- Left Sandhi Engine Card -->
+          <div class="rounded-2xl bg-cosmic-panel/90 border border-cosmic-border p-5 space-y-3">
+            <h3 class="text-xs font-mono font-bold uppercase text-cosmic-cyan flex items-center gap-2">
+              <i class="fa-solid fa-sliders"></i> Sandhi (Phonetic Glide Engine)
+            </h3>
+            <div class="space-y-2 text-xs font-mono">
+              <div class="p-3 rounded-xl bg-cosmic-void border border-cosmic-border space-y-1">
+                <span class="text-cosmic-gold font-bold block">1. Svara Sandhi (Vowels):</span>
+                <span class="text-slate-300 block">Himā + Ālaya → <strong class="text-cosmic-cyan font-serif">हिमालयः (Himālayaḥ)</strong></span>
+                <span class="text-slate-400 text-[10px]">Mahā + Īśa → <strong class="text-cosmic-cyan font-serif">महेशः (Maheśaḥ)</strong></span>
+              </div>
+              <div class="p-3 rounded-xl bg-cosmic-void border border-cosmic-border space-y-1">
+                <span class="text-emerald-400 font-bold block">2. Vyañjana Sandhi (Consonants):</span>
+                <span class="text-slate-300 block">Vāk + Devī → <strong class="text-cosmic-cyan font-serif">वाग्देवी (Vāgdevī)</strong></span>
+                <span class="text-slate-400 text-[10px]">Voiced assimilation softens 'k' into 'g'</span>
+              </div>
+              <div class="p-3 rounded-xl bg-cosmic-void border border-cosmic-border space-y-1">
+                <span class="text-cosmic-magenta font-bold block">3. Visarga Sandhi (Breath):</span>
+                <span class="text-slate-300 block">Śiṣyaḥ + Gurum → <strong class="text-cosmic-cyan font-serif">शिष्यो गुरुम् (Śiṣyo gurum)</strong></span>
+                <span class="text-slate-400 text-[10px]">Visarga shifts to 'o' sound before voiced consonants</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right Interactive Sentence Assembly Challenge -->
+          <div class="rounded-2xl bg-slate-900 border border-emerald-500/40 p-5 space-y-4 glow-cyan">
+            <h3 class="text-xs font-mono font-bold uppercase text-emerald-400 flex items-center gap-2">
+              <i class="fa-solid fa-puzzle-piece"></i> Interactive Sentence Assembly Challenge
+            </h3>
+            
+            <div class="p-3.5 rounded-xl bg-cosmic-void border border-cosmic-border space-y-2">
+              <span class="text-xs text-slate-400 font-mono block">Target English Meaning:</span>
+              <span class="text-base font-bold text-cosmic-gold font-sans block">"The soul crosses the ocean."</span>
+              
+              <div class="pt-2 flex flex-wrap gap-2 text-xs font-mono" id="sentencePiecePool">
+                <button onclick="addSentencePiece('आत्मा')" class="px-3 py-1.5 rounded-lg bg-cosmic-panel border border-cosmic-border text-cosmic-cyan hover:border-cosmic-cyan font-serif font-bold text-sm">
+                  आत्मा (Subject: Soul)
+                </button>
+                <button onclick="addSentencePiece('समुद्रम्')" class="px-3 py-1.5 rounded-lg bg-cosmic-panel border border-cosmic-border text-cosmic-gold hover:border-cosmic-gold font-serif font-bold text-sm">
+                  समुद्रम् (Object: Ocean)
+                </button>
+                <button onclick="addSentencePiece('संतरति')" class="px-3 py-1.5 rounded-lg bg-cosmic-panel border border-cosmic-border text-emerald-400 hover:border-emerald-400 font-serif font-bold text-sm">
+                  संतरति (Verb: Crosses)
+                </button>
+              </div>
+
+              <div class="p-3 rounded-lg bg-cosmic-panel border border-cosmic-border mt-3 space-y-1 font-mono text-xs">
+                <span class="text-slate-400 block text-[10px]">Assembled Sentence:</span>
+                <span class="text-lg font-serif font-bold text-emerald-400 block" id="userAssembledSentence">_</span>
+                <span class="text-[10px] text-slate-400 block" id="userSentenceFeedback">Click the pieces above in Subject + Object + Verb order</span>
+              </div>
+
+              <div class="flex gap-2">
+                <button onclick="clearSentencePieces()" class="px-3 py-1.5 rounded-lg bg-cosmic-void border border-cosmic-border text-slate-400 hover:text-slate-200 text-xs font-mono">
+                  Clear
+                </button>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </section>
+
+      <!-- ============================================================== -->
+      <!-- TAB 4: SVARA & VYAÑJANA MATRIX -->
+      <!-- ============================================================== -->
+      <section id="tab-sound" class="tab-content hidden space-y-6">
+        
+        <div class="rounded-2xl bg-cosmic-panel/90 border border-cosmic-border p-6 shadow-xl relative overflow-hidden">
+          <div class="absolute -right-10 -bottom-10 w-48 h-48 bg-cosmic-cyan/10 rounded-full blur-2xl"></div>
+          <h2 class="text-xl font-bold text-slate-100 flex items-center gap-2">
+            <i class="fa-solid fa-circle-nodes text-cosmic-cyan"></i> Sanskrit Phonetic Matrix (Svaras & Vyañjanas)
+          </h2>
+          <p class="text-xs text-slate-300 mt-1 leading-relaxed max-w-4xl">
+            Sanskrit phonology treats sounds as precise acoustic coordinates in the human vocal tract. Click any vowel (*Svara*) or consonant (*Vyañjana*) to parse its anatomical place of articulation (*Sthāna*) and effort (*Prayatna*).
+          </p>
+        </div>
+
+        <div class="rounded-2xl bg-cosmic-panel/80 border border-cosmic-border p-5 shadow-lg space-y-3">
+          <h3 class="text-xs font-mono font-semibold uppercase text-cosmic-gold flex items-center gap-2">
+            <i class="fa-solid fa-sun"></i> Vowels (Svaras)
+          </h3>
+          <div class="grid grid-cols-3 sm:grid-cols-5 md:grid-cols-8 lg:grid-cols-15 gap-2" id="vowelGrid"></div>
+        </div>
+
+        <div class="rounded-2xl bg-cosmic-panel/80 border border-cosmic-border p-5 shadow-lg space-y-4">
+          <h3 class="text-xs font-mono font-semibold uppercase text-cosmic-cyan flex items-center gap-2">
+            <i class="fa-solid fa-braille"></i> Consonants (Vyañjanas) - Five Structural Vargas
+          </h3>
+          <div class="space-y-3" id="consonantVargaContainer"></div>
+        </div>
+
+        <div class="rounded-2xl bg-slate-900/90 border border-cosmic-cyan/40 p-5 shadow-xl space-y-3 glow-cyan">
+          <div class="flex items-center justify-between border-b border-cosmic-border pb-2">
+            <span class="text-xs font-mono text-cosmic-cyan uppercase font-bold flex items-center gap-2">
+              <i class="fa-solid fa-microscope"></i> Phoneme Acoustic Attribute Inspector
+            </span>
+            <span id="selectedPhonemeCode" class="text-xs font-mono text-cosmic-gold">Select a sound above</span>
+          </div>
+          <div id="phonemeInspectorDetails" class="grid grid-cols-1 md:grid-cols-4 gap-4 text-xs font-mono">
+            <div class="p-3 rounded-xl bg-cosmic-void border border-cosmic-border">
+              <span class="text-slate-500 block text-[10px]">Devanagari / IAST</span>
+              <span class="text-xl font-serif text-cosmic-gold font-bold" id="inspDeva">ā (आ)</span>
+            </div>
+            <div class="p-3 rounded-xl bg-cosmic-void border border-cosmic-border">
+              <span class="text-slate-500 block text-[10px]">Anatomical Place (Sthāna)</span>
+              <span class="text-sm text-slate-200 font-semibold" id="inspSthana">Kaṇṭhya (Velar/Throat)</span>
+            </div>
+            <div class="p-3 rounded-xl bg-cosmic-void border border-cosmic-border">
+              <span class="text-slate-500 block text-[10px]">Internal Effort (Ābhyantara)</span>
+              <span class="text-sm text-slate-200 font-semibold" id="inspEffort">Vivṛta (Open Vowel)</span>
+            </div>
+            <div class="p-3 rounded-xl bg-cosmic-void border border-cosmic-border">
+              <span class="text-slate-500 block text-[10px]">Rule Class & Time (Mātrā)</span>
+              <span class="text-sm text-cosmic-cyan font-semibold" id="inspClass">Dīrgha (2 Mātrās)</span>
+            </div>
+          </div>
+        </div>
+
+      </section>
+
+      <!-- ============================================================== -->
+      <!-- TAB 5: GRAMMAR PARADIGMS -->
+      <!-- ============================================================== -->
+      <section id="tab-grammar" class="tab-content hidden space-y-6">
+        
+        <div class="rounded-2xl bg-cosmic-panel/90 border border-cosmic-border p-6 shadow-xl relative overflow-hidden">
+          <div class="absolute -right-10 -bottom-10 w-48 h-48 bg-cosmic-gold/10 rounded-full blur-2xl"></div>
+          <h2 class="text-xl font-bold text-slate-100 flex items-center gap-2">
+            <i class="fa-solid fa-table-cells text-cosmic-gold"></i> Pronoun Declensions & Present Tense Conjugation Matrix
+          </h2>
+          <p class="text-xs text-slate-300 mt-1 leading-relaxed max-w-4xl">
+            Sanskrit features three distinct numbers: Singular (*Ekavacana*), Dual (*Dvivacana*), and Plural (*Bahuvacana*). Explore personal pronoun paradigms (Asmad, Yuṣmad, Tad) and present tense (*Laṭ Lakāra*) verb endings.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+
+          <!-- Asmad (First Person) -->
+          <div class="rounded-2xl bg-cosmic-panel/80 border border-cosmic-border p-5 space-y-3 shadow-lg">
+            <div class="flex items-center justify-between border-b border-cosmic-border pb-2">
+              <h3 class="text-sm font-bold text-cosmic-gold flex items-center gap-2">
+                <i class="fa-solid fa-user"></i> 1st Person (Asmad - "I / We")
+              </h3>
+              <span class="text-[10px] font-mono text-slate-400">Uttama Puruṣa</span>
+            </div>
+            <div class="space-y-2 text-xs font-mono">
+              <div class="p-2.5 rounded-lg bg-cosmic-void border border-cosmic-border flex justify-between items-center">
+                <span class="text-slate-400">Singular (Eka):</span>
+                <span class="text-cosmic-cyan font-bold font-serif text-sm">अहम् (Aham)</span>
+              </div>
+              <div class="p-2.5 rounded-lg bg-cosmic-void border border-cosmic-border flex justify-between items-center">
+                <span class="text-slate-400">Dual (Dvi):</span>
+                <span class="text-cosmic-cyan font-bold font-serif text-sm">आवाम् (Āvām)</span>
+              </div>
+              <div class="p-2.5 rounded-lg bg-cosmic-void border border-cosmic-border flex justify-between items-center">
+                <span class="text-slate-400">Plural (Bahu):</span>
+                <span class="text-cosmic-cyan font-bold font-serif text-sm">वयम् (Vayam)</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Yuṣmad (Second Person) -->
+          <div class="rounded-2xl bg-cosmic-panel/80 border border-cosmic-border p-5 space-y-3 shadow-lg">
+            <div class="flex items-center justify-between border-b border-cosmic-border pb-2">
+              <h3 class="text-sm font-bold text-cosmic-cyan flex items-center gap-2">
+                <i class="fa-solid fa-users"></i> 2nd Person (Yuṣmad - "You")
+              </h3>
+              <span class="text-[10px] font-mono text-slate-400">Madhyama Puruṣa</span>
+            </div>
+            <div class="space-y-2 text-xs font-mono">
+              <div class="p-2.5 rounded-lg bg-cosmic-void border border-cosmic-border flex justify-between items-center">
+                <span class="text-slate-400">Singular (Eka):</span>
+                <span class="text-cosmic-gold font-bold font-serif text-sm">त्वम् (Tvam)</span>
+              </div>
+              <div class="p-2.5 rounded-lg bg-cosmic-void border border-cosmic-border flex justify-between items-center">
+                <span class="text-slate-400">Dual (Dvi):</span>
+                <span class="text-cosmic-gold font-bold font-serif text-sm">युवाम् (Yuvām)</span>
+              </div>
+              <div class="p-2.5 rounded-lg bg-cosmic-void border border-cosmic-border flex justify-between items-center">
+                <span class="text-slate-400">Plural (Bahu):</span>
+                <span class="text-cosmic-gold font-bold font-serif text-sm">यूयम् (Yūyam)</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Tad (Third Person - Masc) -->
+          <div class="rounded-2xl bg-cosmic-panel/80 border border-cosmic-border p-5 space-y-3 shadow-lg">
+            <div class="flex items-center justify-between border-b border-cosmic-border pb-2">
+              <h3 class="text-sm font-bold text-cosmic-magenta flex items-center gap-2">
+                <i class="fa-solid fa-users-viewfinder"></i> 3rd Person (Tad - "He / They")
+              </h3>
+              <span class="text-[10px] font-mono text-slate-400">Prathama Puruṣa</span>
+            </div>
+            <div class="space-y-2 text-xs font-mono">
+              <div class="p-2.5 rounded-lg bg-cosmic-void border border-cosmic-border flex justify-between items-center">
+                <span class="text-slate-400">Singular (Eka):</span>
+                <span class="text-cosmic-magenta font-bold font-serif text-sm">सः (Saḥ)</span>
+              </div>
+              <div class="p-2.5 rounded-lg bg-cosmic-void border border-cosmic-border flex justify-between items-center">
+                <span class="text-slate-400">Dual (Dvi):</span>
+                <span class="text-cosmic-magenta font-bold font-serif text-sm">तौ (Tau)</span>
+              </div>
+              <div class="p-2.5 rounded-lg bg-cosmic-void border border-cosmic-border flex justify-between items-center">
+                <span class="text-slate-400">Plural (Bahu):</span>
+                <span class="text-cosmic-magenta font-bold font-serif text-sm">ते (Te)</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="rounded-2xl bg-cosmic-panel/90 border border-cosmic-border p-6 shadow-xl space-y-4">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-cosmic-border pb-3">
+            <h3 class="text-sm font-bold text-slate-100 flex items-center gap-2">
+              <i class="fa-solid fa-diagram-project text-cosmic-cyan"></i> Laṭ Lakāra (Present Tense) Conjugation Matrix
+            </h3>
+            <span class="text-xs font-mono text-cosmic-gold">Active Root: √Path (पठ् / To Read)</span>
+          </div>
+
+          <div class="overflow-x-auto">
+            <table class="w-full text-left text-xs font-mono border-collapse">
+              <thead>
+                <tr class="border-b border-cosmic-border bg-cosmic-void text-cosmic-cyan">
+                  <th class="p-3">Person (Puruṣa)</th>
+                  <th class="p-3">Singular (Ekavacana)</th>
+                  <th class="p-3">Dual (Dvivacana)</th>
+                  <th class="p-3">Plural (Bahuvacana)</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-cosmic-border/60">
+                <tr class="hover:bg-cosmic-void/50">
+                  <td class="p-3 font-semibold text-cosmic-gold">3rd Person (Prathama)</td>
+                  <td class="p-3 text-slate-200"><span class="text-cosmic-cyan font-serif text-sm">पठति</span> (Paṭhati)</td>
+                  <td class="p-3 text-slate-200"><span class="text-cosmic-cyan font-serif text-sm">पठतः</span> (Paṭhataḥ)</td>
+                  <td class="p-3 text-slate-200"><span class="text-cosmic-cyan font-serif text-sm">पठन्ति</span> (Paṭhanti)</td>
+                </tr>
+                <tr class="hover:bg-cosmic-void/50">
+                  <td class="p-3 font-semibold text-cosmic-gold">2nd Person (Madhyama)</td>
+                  <td class="p-3 text-slate-200"><span class="text-cosmic-gold font-serif text-sm">पठसि</span> (Paṭhasi)</td>
+                  <td class="p-3 text-slate-200"><span class="text-cosmic-gold font-serif text-sm">पठथः</span> (Paṭhathaḥ)</td>
+                  <td class="p-3 text-slate-200"><span class="text-cosmic-gold font-serif text-sm">पठथ</span> (Paṭhatha)</td>
+                </tr>
+                <tr class="hover:bg-cosmic-void/50">
+                  <td class="p-3 font-semibold text-cosmic-gold">1st Person (Uttama)</td>
+                  <td class="p-3 text-slate-200"><span class="text-cosmic-magenta font-serif text-sm">पठामि</span> (Paṭhāmi)</td>
+                  <td class="p-3 text-slate-200"><span class="text-cosmic-magenta font-serif text-sm">पठावः</span> (Paṭhāvaḥ)</td>
+                  <td class="p-3 text-slate-200"><span class="text-cosmic-magenta font-serif text-sm">पठामः</span> (Paṭhāmaḥ)</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </section>
+
+      <!-- ============================================================== -->
+      <!-- TAB 6: 186K LEXICON & INFINITY SIMULATOR -->
+      <!-- ============================================================== -->
+      <section id="tab-lexicon" class="tab-content hidden space-y-6">
+        
+        <div class="rounded-2xl bg-cosmic-panel/90 border border-cosmic-border p-6 shadow-xl relative overflow-hidden">
+          <div class="absolute -right-10 -bottom-10 w-48 h-48 bg-cosmic-cyan/10 rounded-full blur-2xl"></div>
+          <h2 class="text-xl font-bold text-slate-100 flex items-center gap-2">
+            <i class="fa-solid fa-infinity text-cosmic-cyan"></i> The 186,000 Headwords Ledger & Theoretical Infinity
+          </h2>
+          <p class="text-xs text-slate-300 mt-1 leading-relaxed max-w-4xl">
+            Sanskrit dictionaries like Monier-Williams (1899) estimate ~186,000 headwords. However, because Sanskrit is a highly agglutinative, rule-governed synthetic language, its theoretical word space is infinite.
+          </p>
+        </div>
+
+        <div class="rounded-2xl bg-slate-900 border border-cosmic-gold/40 p-6 shadow-xl space-y-4 glow-gold">
+          <div class="flex items-center justify-between border-b border-cosmic-border pb-3">
+            <h3 class="text-sm font-bold text-cosmic-gold flex items-center gap-2 font-mono">
+              <i class="fa-solid fa-calculator"></i> Combinatorial Theoretical Word Space Simulator
+            </h3>
+            <span class="text-xs font-mono text-slate-400 font-semibold">Parameters multiplier</span>
+          </div>
+
+          <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-3 text-xs font-mono">
+            <div class="p-3 rounded-xl bg-cosmic-void border border-cosmic-border">
+              <span class="text-slate-500 block text-[10px]">Dhātus (Roots)</span>
+              <span class="text-sm text-cosmic-cyan font-bold">2,000</span>
+            </div>
+            <div class="p-3 rounded-xl bg-cosmic-void border border-cosmic-border">
+              <span class="text-slate-500 block text-[10px]">Upasargas</span>
+              <span class="text-sm text-cosmic-cyan font-bold">22</span>
+            </div>
+            <div class="p-3 rounded-xl bg-cosmic-void border border-cosmic-border">
+              <span class="text-slate-500 block text-[10px]">Lakāras (Tenses)</span>
+              <span class="text-sm text-cosmic-cyan font-bold">10</span>
+            </div>
+            <div class="p-3 rounded-xl bg-cosmic-void border border-cosmic-border">
+              <span class="text-slate-500 block text-[10px]">Puruṣas (Persons)</span>
+              <span class="text-sm text-cosmic-cyan font-bold">3</span>
+            </div>
+            <div class="p-3 rounded-xl bg-cosmic-void border border-cosmic-border">
+              <span class="text-slate-500 block text-[10px]">Vacanas (Numbers)</span>
+              <span class="text-sm text-cosmic-cyan font-bold">3</span>
+            </div>
+            <div class="p-3 rounded-xl bg-cosmic-void border border-cosmic-border">
+              <span class="text-slate-500 block text-[10px]">Declensions (Subanta)</span>
+              <span class="text-sm text-cosmic-cyan font-bold">21</span>
+            </div>
+          </div>
+
+          <div class="p-4 rounded-xl bg-cosmic-void border border-cosmic-gold/30 flex flex-col sm:flex-row sm:items-center justify-between gap-4 font-mono">
+            <div>
+              <span class="text-xs text-slate-400 block">Baseline Finite Conjugational Combinations:</span>
+              <span class="text-2xl font-bold text-cosmic-gold text-glow-gold" id="calcCombinationOutput">3,969,000,000+ Valid Words</span>
+            </div>
+            <div class="text-xs text-slate-400 max-w-xs">
+              *Excluding infinite Samāsa compounding (Rule 2.1.3 Prāk kaḍārād samāsaḥ)
+            </div>
+          </div>
+        </div>
+
+        <div class="rounded-2xl bg-cosmic-panel/90 border border-cosmic-border p-6 shadow-xl space-y-4">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-cosmic-border pb-3">
+            <div>
+              <h3 class="text-sm font-bold text-slate-100 flex items-center gap-2">
+                <i class="fa-solid fa-book text-cosmic-cyan"></i> Amarakosha Synonym Density Explorer
+              </h3>
+              <p class="text-xs text-slate-400">Classical verse thesaurus categorization by Amarasimha (4th Century CE)</p>
+            </div>
+            <input 
+              type="text" 
+              id="synonymSearchInput" 
+              placeholder="Search concept (e.g. Fire, Water, Sky)..."
+              class="bg-cosmic-void border border-cosmic-border rounded-xl px-3.5 py-1.5 text-xs font-mono text-cosmic-cyan focus:border-cosmic-cyan outline-none w-64"
+              oninput="filterSynonyms(this.value)"
+            >
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4" id="synonymCardsContainer"></div>
+        </div>
+
+      </section>
+
+      <!-- ============================================================== -->
+      <!-- TAB 7: PĀṆINIAN SCHEMA TRANSDUCER -->
+      <!-- ============================================================== -->
+      <section id="tab-schema" class="tab-content hidden space-y-6">
+        
+        <div class="rounded-2xl bg-cosmic-panel/90 border border-cosmic-border p-6 shadow-xl relative overflow-hidden">
+          <div class="absolute -right-10 -bottom-10 w-48 h-48 bg-cosmic-magenta/10 rounded-full blur-2xl"></div>
+          <h2 class="text-xl font-bold text-slate-100 flex items-center gap-2">
+            <i class="fa-solid fa-code text-cosmic-magenta"></i> Pāṇinian Rule JSON Schema Transducer
+          </h2>
+          <p class="text-xs text-slate-300 mt-1 leading-relaxed max-w-4xl">
+            Generates machine-readable JSON Schema verification payloads for Aṣṭādhyāyī rules (Vṛddhi 1.1.1, Guṇa 1.1.2, Sandhi 6.1.88, Taddhita 7.2.115).
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+
+          <!-- Left Rule Selector Controls -->
+          <div class="lg:col-span-5 space-y-4">
+            <div class="rounded-2xl bg-cosmic-panel/90 border border-cosmic-border p-5 space-y-4">
+              <label class="text-xs font-mono font-semibold uppercase text-cosmic-gold block flex items-center gap-2">
+                <i class="fa-solid fa-scroll"></i> Select Aṣṭādhyāyī Sūtra
+              </label>
+
+              <div class="space-y-2 font-mono text-xs">
+                <button onclick="selectSchemaRule('1.1.1')" id="sutraBtn-1.1.1" class="sutra-btn w-full p-3 rounded-xl bg-cosmic-void border border-cosmic-cyan/50 text-left hover:border-cosmic-cyan transition-all flex justify-between items-center">
+                  <div>
+                    <span class="text-cosmic-cyan font-bold block">1.1.1 वृद्धिरादैच्</span>
+                    <span class="text-slate-400 text-[10px]">vṛddhirādaic (Vṛddhi Definition)</span>
+                  </div>
+                  <i class="fa-solid fa-chevron-right text-cosmic-cyan"></i>
+                </button>
+
+                <button onclick="selectSchemaRule('1.1.2')" id="sutraBtn-1.1.2" class="sutra-btn w-full p-3 rounded-xl bg-cosmic-void border border-cosmic-border text-slate-300 text-left hover:border-cosmic-cyan transition-all flex justify-between items-center">
+                  <div>
+                    <span class="text-cosmic-gold font-bold block">1.1.2 अदेङ्गुणः</span>
+                    <span class="text-slate-400 text-[10px]">adeṅ guṇaḥ (Guṇa Definition)</span>
+                  </div>
+                  <i class="fa-solid fa-chevron-right text-slate-500"></i>
+                </button>
+
+                <button onclick="selectSchemaRule('6.1.88')" id="sutraBtn-6.1.88" class="sutra-btn w-full p-3 rounded-xl bg-cosmic-void border border-cosmic-border text-slate-300 text-left hover:border-cosmic-cyan transition-all flex justify-between items-center">
+                  <div>
+                    <span class="text-cosmic-magenta font-bold block">6.1.88 वृद्धिरेचि</span>
+                    <span class="text-slate-400 text-[10px]">vṛddhir eci (Vṛddhi Sandhi Blending)</span>
+                  </div>
+                  <i class="fa-solid fa-chevron-right text-slate-500"></i>
+                </button>
+
+                <button onclick="selectSchemaRule('7.2.115')" id="sutraBtn-7.2.115" class="sutra-btn w-full p-3 rounded-xl bg-cosmic-void border border-cosmic-border text-slate-300 text-left hover:border-cosmic-cyan transition-all flex justify-between items-center">
+                  <div>
+                    <span class="text-emerald-400 font-bold block">7.2.115 अचो ञ्णिति</span>
+                    <span class="text-slate-400 text-[10px]">aco ñniti (Taddhita Initial Vowel)</span>
+                  </div>
+                  <i class="fa-solid fa-chevron-right text-slate-500"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right JSON Payload Code View -->
+          <div class="lg:col-span-7 space-y-4">
+            <div class="rounded-2xl bg-slate-900 border border-cosmic-border shadow-xl overflow-hidden flex flex-col">
+              <div class="px-5 py-3.5 bg-cosmic-panel border-b border-cosmic-border flex items-center justify-between">
+                <span class="text-xs font-mono text-slate-200 flex items-center gap-2">
+                  <i class="fa-regular fa-file-code text-cosmic-cyan"></i>
+                  <span id="schemaTitleText">Schema Output: 1.1.1 vṛddhirādaic</span>
+                </span>
+                <div class="flex items-center gap-2 font-mono text-xs">
+                  <button onclick="copySchemaPayload()" class="px-3 py-1.5 rounded-lg bg-cosmic-void hover:bg-slate-800 text-cosmic-cyan border border-cosmic-border transition-all flex items-center gap-1.5">
+                    <i class="fa-regular fa-copy"></i> Copy
+                  </button>
+                  <button onclick="downloadSchemaReport()" class="px-3 py-1.5 rounded-lg bg-cosmic-void hover:bg-slate-800 text-cosmic-gold border border-cosmic-border transition-all flex items-center gap-1.5">
+                    <i class="fa-solid fa-download"></i> Download .json
+                  </button>
+                </div>
+              </div>
+
+              <div class="p-4 bg-cosmic-void font-mono text-xs overflow-x-auto min-h-[360px] max-h-[460px]">
+                <pre id="schemaJsonCodeView" class="text-slate-300 leading-relaxed"><code></code></pre>
+              </div>
+
+              <div class="px-5 py-2.5 bg-cosmic-panel border-t border-cosmic-border text-[11px] font-mono text-slate-400 flex justify-between">
+                <span>Standard: JSON-Schema Draft-07</span>
+                <span id="schemaByteSize">Payload: 842 bytes</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="mt-auto border-t border-cosmic-border bg-cosmic-deep/60 py-6">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-mono text-slate-500">
+        <div class="flex items-center space-x-2">
+          <span class="text-cosmic-gold font-semibold">The Cosmic Computational Engine of Sanskrit</span>
+          <span>•</span>
+          <span>Digital Humanities & Structural NLP Pipeline</span>
+        </div>
+        <div>
+          <span>Open-Access Standard • Pāṇini Aṣṭādhyāyī Architecture</span>
+        </div>
+      </div>
+    </footer>
+
+  </div>
+
+  <!-- TOAST NOTIFICATION -->
+  <div id="cosmicToast" class="fixed bottom-5 right-5 z-50 transform translate-y-20 opacity-0 transition-all duration-300 pointer-events-none">
+    <div class="px-4 py-3 rounded-xl bg-slate-900 border border-cosmic-cyan text-slate-100 text-xs font-mono shadow-2xl flex items-center space-x-3 glow-cyan">
+      <i class="fa-solid fa-circle-check text-cosmic-cyan text-base"></i>
+      <span id="cosmicToastMsg">Action executed successfully.</span>
+    </div>
+  </div>
+
+  <!-- JAVASCRIPT LOGIC ARCHITECTURE -->
+  <script>
+    // =========================================================================
+    // 1. MASTER DHĀTU DATASETS (240+ ROOTS ACROSS 16 CATEGORIES)
+    // =========================================================================
+    const MASTER_DHATU_DATA = [
+      {
+        catId: "Movement",
+        catName: "1. Movement, Going, & Flowing",
+        roots: [
+          { deva: "√गम्", iast: "gam", meaning: "To go / move" },
+          { deva: "√चल्", iast: "cal", meaning: "To move / shake" },
+          { deva: "√चर", iast: "car", meaning: "To wander / move / practice" },
+          { deva: "√स्था", iast: "sthā", meaning: "To stand / stay / stop" },
+          { deva: "√इ", iast: "i", meaning: "To go" },
+          { deva: "√या", iast: "yā", meaning: "To go / travel" },
+          { deva: "√सृ", iast: "sṛ", meaning: "To flow / glide" },
+          { deva: "√द्रु", iast: "dru", meaning: "To run / melt" },
+          { deva: "√धाव्", iast: "dhāv", meaning: "To run / cleanse" },
+          { deva: "√पद्", iast: "pad", meaning: "To step / go to" },
+          { deva: "√विश", iast: "viś", meaning: "To enter" },
+          { deva: "√रुह्", iast: "ruh", meaning: "To climb / grow" },
+          { deva: "√पत्", iast: "pat", meaning: "To fall / fly" },
+          { deva: "√प्लु", iast: "plu", meaning: "To float / swim / leap" },
+          { deva: "√क्रम्", iast: "kram", meaning: "To stride / step" },
+          { deva: "√त्वर्", iast: "tvar", meaning: "To hurry" },
+          { deva: "√स्कन्द्", iast: "skand", meaning: "To leap / spill" },
+          { deva: "√सृप्", iast: "sṛp", meaning: "To creep / crawl" },
+          { deva: "√व्रज्", iast: "vraj", meaning: "To wander / go" },
+          { deva: "√भ्रम्", iast: "bhram", meaning: "To wander / whirl / err" }
+        ]
+      },
+      {
+        catId: "Speaking",
+        catName: "2. Speaking, Sound, & Expression",
+        roots: [
+          { deva: "√वद्", iast: "vad", meaning: "To speak / say" },
+          { deva: "√वच्", iast: "vac", meaning: "To speak / tell" },
+          { deva: "√ब्रू", iast: "brū", meaning: "To speak / declare" },
+          { deva: "√भाष", iast: "bhāṣ", meaning: "To speak / converse" },
+          { deva: "√कथ्", iast: "kath", meaning: "To tell / narrate" },
+          { deva: "√रुद्", iast: "rud", meaning: "To weep / cry" },
+          { deva: "√क्रुश्", iast: "kruś", meaning: "To cry out / shout" },
+          { deva: "√हस्", iast: "has", meaning: "To laugh" },
+          { deva: "√गै", iast: "gai", meaning: "To sing" },
+          { deva: "√नद्", iast: "nad", meaning: "To roar / sound" },
+          { deva: "√गुञ्ज", iast: "guñj", meaning: "To hum / buzz" },
+          { deva: "√स्तु", iast: "stu", meaning: "To praise" },
+          { deva: "√शंस्", iast: "śaṃs", meaning: "To praise / recite" },
+          { deva: "√आख्", iast: "ākh", meaning: "To name / tell" },
+          { deva: "√जल्प", iast: "jalp", meaning: "To chatter / gossip" },
+          { deva: "√मन्त्र", iast: "mantra", meaning: "To consult / counsel" },
+          { deva: "√घुष्", iast: "ghuṣ", meaning: "To proclaim" },
+          { deva: "√ध्वन्", iast: "dhvan", meaning: "To sound / echo" },
+          { deva: "√कुज्", iast: "kuj", meaning: "To chirp / coo" },
+          { deva: "√गर्ज", iast: "garj", meaning: "To roar / thunder" }
+        ]
+      },
+      {
+        catId: "Thinking",
+        catName: "3. Thinking, Knowing, & Perceiving",
+        roots: [
+          { deva: "√ज्ञा", iast: "jñā", meaning: "To know" },
+          { deva: "√बुध्", iast: "budh", meaning: "To wake / understand" },
+          { deva: "√मन्", iast: "man", meaning: "To think / believe" },
+          { deva: "√चित्", iast: "cit", meaning: "To perceive / think" },
+          { deva: "√चिन्त्", iast: "cint", meaning: "To think / ponder" },
+          { deva: "√दृश्", iast: "dṛś", meaning: "To see" },
+          { deva: "√श्रु", iast: "śru", meaning: "To hear" },
+          { deva: "√घ्रा", iast: "ghrā", meaning: "To smell" },
+          { deva: "√स्पृश्", iast: "spṛś", meaning: "To touch" },
+          { deva: "√स्वाद", iast: "svāda", meaning: "To taste" },
+          { deva: "√स्मृ", iast: "smṛ", meaning: "To remember" },
+          { deva: "√इष्", iast: "iṣ", meaning: "To wish / desire" },
+          { deva: "√काङ्क्ष", iast: "kāṅkṣ", meaning: "To desire / long for" },
+          { deva: "√तर्क", iast: "tarka", meaning: "To reason / suspect" },
+          { deva: "√ध्ये", iast: "dhye", meaning: "To meditate / contemplate" },
+          { deva: "√शङ्क", iast: "śaṅk", meaning: "To doubt / fear" },
+          { deva: "√कल्प्", iast: "kalp", meaning: "To imagine / fashion" },
+          { deva: "√विद्", iast: "vid", meaning: "To know / find" },
+          { deva: "√ऊह्", iast: "ūh", meaning: "To deduce / infer" },
+          { deva: "√मन्थ", iast: "manth", meaning: "To churn / shake" }
+        ]
+      },
+      {
+        catId: "Action",
+        catName: "4. Action, Creation, & Giving",
+        roots: [
+          { deva: "√कृ", iast: "kṛ", meaning: "To do / make" },
+          { deva: "√दा", iast: "dā", meaning: "To give" },
+          { deva: "√धृ", iast: "dhṛ", meaning: "To hold / support" },
+          { deva: "√ग्रह", iast: "grah", meaning: "To seize / take" },
+          { deva: "√रच्", iast: "rac", meaning: "To create / compose" },
+          { deva: "√सृज्", iast: "sṛj", meaning: "To emit / create" },
+          { deva: "√खन्", iast: "khan", meaning: "To dig" },
+          { deva: "√कृष्", iast: "kṛṣ", meaning: "To plow / drag" },
+          { deva: "√सिच्", iast: "sic", meaning: "To sprinkle / water" },
+          { deva: "√बन्ध", iast: "bandh", meaning: "To bind / tie" },
+          { deva: "√मुच्", iast: "muc", meaning: "To free / release" },
+          { deva: "√त्याज्", iast: "tyāj", meaning: "To abandon / leave" },
+          { deva: "√भज", iast: "bhaj", meaning: "To share / worship" },
+          { deva: "√लभ्", iast: "labh", meaning: "To obtain / gain" },
+          { deva: "√यज्", iast: "yaj", meaning: "To sacrifice / worship" },
+          { deva: "√हन्", iast: "han", meaning: "To strike / kill" },
+          { deva: "√भिद्", iast: "bhid", meaning: "To pierce / split" },
+          { deva: "√छिद्", iast: "chid", meaning: "To cut / sever" },
+          { deva: "√क्षिप", iast: "kṣip", meaning: "To throw / cast" },
+          { deva: "√वह", iast: "vah", meaning: "To carry / transport" }
+        ]
+      },
+      {
+        catId: "Being",
+        catName: "5. Being, Living, & Growing",
+        roots: [
+          { deva: "√भू", iast: "bhū", meaning: "To be / become" },
+          { deva: "√अस्", iast: "as", meaning: "To be / exist" },
+          { deva: "√जीव्", iast: "jīv", meaning: "To live" },
+          { deva: "√वृत्", iast: "vṛt", meaning: "To turn / exist / happen" },
+          { deva: "√जन्", iast: "jan", meaning: "To be born / produce" },
+          { deva: "√मृ", iast: "mṛ", meaning: "To die" },
+          { deva: "√नश्", iast: "naś", meaning: "To perish / disappear" },
+          { deva: "√वृध्", iast: "vṛdh", meaning: "To grow / increase" },
+          { deva: "√पुष्", iast: "puṣ", meaning: "To nourish / thrive" },
+          { deva: "√फुल्ल", iast: "phulla", meaning: "To blossom / bloom" },
+          { deva: "√ग्लै", iast: "glai", meaning: "To fade / wither" },
+          { deva: "√तप्", iast: "tap", meaning: "To burn / suffer / shine" },
+          { deva: "√शुष्", iast: "śuṣ", meaning: "To dry up" },
+          { deva: "√दीप्", iast: "dīp", meaning: "To shine / illuminate" },
+          { deva: "√ज्वल्", iast: "jval", meaning: "To blaze / burn" },
+          { deva: "√शुभ", iast: "śubh", meaning: "To be beautiful / shine" },
+          { deva: "√राज्", iast: "rāj", meaning: "To rule / shine" },
+          { deva: "√शिल्", iast: "śil", meaning: "To practice / behave" },
+          { deva: "√स्थाप्", iast: "sthāp", meaning: "To establish / place" },
+          { deva: "√पुष्प", iast: "puṣpa", meaning: "To flower" }
+        ]
+      },
+      {
+        catId: "Body",
+        catName: "6. Rest, Consumption, & Body Actions",
+        roots: [
+          { deva: "√अद्", iast: "ad", meaning: "To eat" },
+          { deva: "√भक्ष", iast: "bhakṣ", meaning: "To consume / eat" },
+          { deva: "√पा", iast: "pā", meaning: "To drink" },
+          { deva: "√स्वप्", iast: "svap", meaning: "To sleep" },
+          { deva: "√शी", iast: "śī", meaning: "To lie down / rest" },
+          { deva: "√जागृ", iast: "jāgṛ", meaning: "To wake / watch" },
+          { deva: "√खाद्", iast: "khād", meaning: "To chew / eat" },
+          { deva: "√धे", iast: "dhe", meaning: "To suck" },
+          { deva: "√श्वस्", iast: "śvas", meaning: "To breathe" },
+          { deva: "√खेल", iast: "khela", meaning: "To play" },
+          { deva: "√नृत्", iast: "nṛt", meaning: "To dance" },
+          { deva: "√आस्", iast: "ās", meaning: "To sit" },
+          { deva: "√क्रुध्", iast: "krudh", meaning: "To be angry" },
+          { deva: "√कुप्", iast: "kup", meaning: "To be angry / shaken" },
+          { deva: "√भी", iast: "bhī", meaning: "To fear" },
+          { deva: "√रम्", iast: "ram", meaning: "To rejoice / play" },
+          { deva: "√तृष्", iast: "tṛṣ", meaning: "To thirst" },
+          { deva: "√क्षुध्", iast: "kṣudh", meaning: "To be hungry" },
+          { deva: "√श्रम्", iast: "śram", meaning: "To toil / grow weary" },
+          { deva: "√ह्लाद्", iast: "hlād", meaning: "To rejoice / be glad" }
+        ]
+      },
+      {
+        catId: "Celestial",
+        catName: "7. Light, Stars, & Celestial Splendor",
+        roots: [
+          { deva: "√द्यु", iast: "dyu", meaning: "To shine / beam / illuminate" },
+          { deva: "√दिश्", iast: "diś", meaning: "To point out / direct" },
+          { deva: "√भा", iast: "bhā", meaning: "To shine / be bright" },
+          { deva: "√रुच्", iast: "ruc", meaning: "To shine / please" },
+          { deva: "√शुभ्", iast: "śubh", meaning: "To radiance / beautify" },
+          { deva: "√द्युत्", iast: "dyut", meaning: "To flash / beam / sparkle" },
+          { deva: "√लास", iast: "lāsa", meaning: "To flash / gleam / dance" },
+          { deva: "√खच", iast: "khaca", meaning: "To be studded with stars" },
+          { deva: "√तार", iast: "tāra", meaning: "To cross over / carry across" },
+          { deva: "√आलोक्", iast: "ālok", meaning: "To behold / illuminate" },
+          { deva: "√स्फुर्", iast: "sphur", meaning: "To throb / flash with cosmic energy" },
+          { deva: "√प्रकाश", iast: "prakāśa", meaning: "To illuminate / expand light" },
+          { deva: "√चन्द्र", iast: "candra", meaning: "To glow / glitter" },
+          { deva: "√भानु", iast: "bhānu", meaning: "To radiate / be brilliant" },
+          { deva: "√सूर्", iast: "sūr", meaning: "To shine / glitter" },
+          { deva: "√ज्योति", iast: "jyoti", meaning: "To light up / burn" },
+          { deva: "√तविष", iast: "taviṣ", meaning: "To act with celestial power" },
+          { deva: "√अर्च", iast: "arca", meaning: "To shine / honor with light" },
+          { deva: "√विभा", iast: "vibhā", meaning: "To shine forth everywhere" },
+          { deva: "√कन", iast: "kan", meaning: "To shine / be pleased" }
+        ]
+      },
+      {
+        catId: "TimeSpace",
+        catName: "8. Time, Space, & Cosmic Order",
+        roots: [
+          { deva: "√वृत्", iast: "vṛt", meaning: "To turn / revolve (cyclic time)" },
+          { deva: "√क्रम्", iast: "kram", meaning: "To step across cosmic spaces" },
+          { deva: "√तन्", iast: "tan", meaning: "To stretch / weave fabric of space" },
+          { deva: "√कल्", iast: "kal", meaning: "To calculate / impel time (Kāla)" },
+          { deva: "√युज्", iast: "yuj", meaning: "To yoke / align harmony (Yoga)" },
+          { deva: "√धा", iast: "dhā", meaning: "To place / sustain order" },
+          { deva: "√नभ्", iast: "nabh", meaning: "To burst forth / expand void" },
+          { deva: "√अञ्च्", iast: "añc", meaning: "To bend / move in cosmic orbit" },
+          { deva: "√परिपत्", iast: "paripat", meaning: "To orbit around a center" },
+          { deva: "√म", iast: "ma", meaning: "To measure out dimensions" },
+          { deva: "√रुध्", iast: "rudh", meaning: "To control / contain cosmic forces" },
+          { deva: "√अध्व", iast: "adhva", meaning: "To travel along a cosmic trajectory" },
+          { deva: "√व्याप्", iast: "vyāp", meaning: "To pervade all space" },
+          { deva: "√अन्त", iast: "anta", meaning: "To bind / reach cosmic edge" },
+          { deva: "√ऋत", iast: "ṛta", meaning: "To align with universal truth" },
+          { deva: "√परिभ्रम्", iast: "paribhram", meaning: "To revolve in orbit" },
+          { deva: "√सृज्", iast: "sṛj", meaning: "To launch / emit matter" },
+          { deva: "√व्यूह्", iast: "vyūh", meaning: "To organize the cosmos" },
+          { deva: "√नक्षत्र", iast: "nakṣatra", meaning: "To gain mastery over stellar sectors" },
+          { deva: "√अनन्त", iast: "ananta", meaning: "To expand without limit" }
+        ]
+      },
+      {
+        catId: "Elements",
+        catName: "9. Fire, Wind, & Akasha (Ether)",
+        roots: [
+          { deva: "√तप्", iast: "tap", meaning: "To burn / generate cosmic heat" },
+          { deva: "√इन्ध्", iast: "indh", meaning: "To kindle flame" },
+          { deva: "√दह्", iast: "dah", meaning: "To consume by fire" },
+          { deva: "√शुष्", iast: "śuṣ", meaning: "To dry out through heat" },
+          { deva: "√ज्वल्", iast: "jval", meaning: "To blaze up fiercely" },
+          { deva: "√वा", iast: "vā", meaning: "To blow like cosmic wind" },
+          { deva: "√पु", iast: "pu", meaning: "To purify through fire/wind" },
+          { deva: "√धू", iast: "dhū", meaning: "To shake / blow away" },
+          { deva: "√मथ्", iast: "math", meaning: "To churn cosmic ocean" },
+          { deva: "√स्पन्द्", iast: "spand", meaning: "To vibrate at primal level" },
+          { deva: "√गुञ्ज", iast: "guñj", meaning: "To hum primal frequency" },
+          { deva: "√ध्वन्", iast: "dhvan", meaning: "To reverberate through space" },
+          { deva: "√आकाश्", iast: "ākāś", meaning: "To shine out of the void" },
+          { deva: "√लस", iast: "las", meaning: "To play with elemental energy" },
+          { deva: "√प्लुष", iast: "pluṣ", meaning: "To scorch by cosmic radiation" },
+          { deva: "√अर्चि", iast: "arci", meaning: "To beam rays of light" },
+          { deva: "√धाय", iast: "dhāya", meaning: "To sustain an energy source" },
+          { deva: "√समीर", iast: "samīra", meaning: "To set in motion gently" },
+          { deva: "√क्ष्मा", iast: "kṣmā", meaning: "To endure like earth" },
+          { deva: "√कम्प", iast: "kampa", meaning: "To vibrate violently" }
+        ]
+      },
+      {
+        catId: "Ocean",
+        catName: "10. Water, Ocean, & Great Floods",
+        roots: [
+          { deva: "√प्लु", iast: "plu", meaning: "To float across primordial waters" },
+          { deva: "√सृ", iast: "sṛ", meaning: "To flow freely / stream" },
+          { deva: "√द्रु", iast: "dru", meaning: "To melt / dissolve rapidly" },
+          { deva: "√सिच्", iast: "sic", meaning: "To pour down water" },
+          { deva: "√उन्द", iast: "unda", meaning: "To submerge under water" },
+          { deva: "√क्षीर", iast: "kṣīra", meaning: "To flow like cosmic milk" },
+          { deva: "√मज्ज", iast: "majja", meaning: "To dive into the deep" },
+          { deva: "√धव", iast: "dhava", meaning: "To wash away cleanly" },
+          { deva: "√सिन्धु", iast: "sindhu", meaning: "To surge like a river" },
+          { deva: "√अर्ण", iast: "arṇa", meaning: "To swirl like ocean waves" },
+          { deva: "√पूर", iast: "pūra", meaning: "To fill up / swell high tide" },
+          { deva: "√वृष", iast: "vṛṣ", meaning: "To shower blessings" },
+          { deva: "√गम्भीर", iast: "gambhīra", meaning: "To become bottomless" },
+          { deva: "√कॄ", iast: "kṝ", meaning: "To pour down stellar dust" },
+          { deva: "√घूर्ण", iast: "ghūrṇa", meaning: "To whirlpool / spin around" },
+          { deva: "√क्षर", iast: "kṣara", meaning: "To dissolve away" },
+          { deva: "√स्त्यान", iast: "styāna", meaning: "To solidify into mass" },
+          { deva: "√प्लव", iast: "plava", meaning: "To float on a great flood" },
+          { deva: "√स्नू", iast: "snū", meaning: "To distill essence" },
+          { deva: "√तरङ्ग", iast: "taraṅga", meaning: "To wave across space" }
+        ]
+      },
+      {
+        catId: "Soul",
+        catName: "11. Absolute Being, Void, & Soul",
+        roots: [
+          { deva: "√अस्", iast: "as", meaning: "To exist in ultimate reality" },
+          { deva: "√भू", iast: "bhū", meaning: "To manifest into physical form" },
+          { deva: "√जीव्", iast: "jīv", meaning: "To live with vitality" },
+          { deva: "√आन्", iast: "ān", meaning: "To breathe (Prāṇa)" },
+          { deva: "√आत्म", iast: "ātma", meaning: "To pervade all things" },
+          { deva: "√मुच्", iast: "muc", meaning: "To liberate from rebirth cycle" },
+          { deva: "√शम्", iast: "śam", meaning: "To attain absolute peace" },
+          { deva: "√रम्", iast: "ram", meaning: "To find deep joy in existence" },
+          { deva: "√ह्लाद्", iast: "hlād", meaning: "To experience pure bliss" },
+          { deva: "√तृप्", iast: "tṛp", meaning: "To be fully content" },
+          { deva: "√स्वप्", iast: "svap", meaning: "To dream (cosmic sleep)" },
+          { deva: "√लीय", iast: "līya", meaning: "To merge into the source" },
+          { deva: "√शून्य", iast: "śūnya", meaning: "To turn into the void" },
+          { deva: "√ब्रह्म", iast: "brahma", meaning: "To expand infinitely" },
+          { deva: "√ईश्", iast: "īś", meaning: "To rule over supreme power" },
+          { deva: "√विद्", iast: "vid", meaning: "To find absolute awareness" },
+          { deva: "√भास", iast: "bhāsa", meaning: "To bring awareness to light" },
+          { deva: "√चित", iast: "cita", meaning: "To be conscious" },
+          { deva: "√जागृ", iast: "jāgṛ", meaning: "To keep eternal cosmic vigil" },
+          { deva: "√मन्", iast: "man", meaning: "To hold universal intelligence" }
+        ]
+      },
+      {
+        catId: "Power",
+        catName: "12. Power, Destruction, & Transformation",
+        roots: [
+          { deva: "√हन्", iast: "han", meaning: "To dissolve physical forms" },
+          { deva: "√क्रुध्", iast: "krudh", meaning: "To unleash cosmic fury" },
+          { deva: "√भी", iast: "bhī", meaning: "To hold terrible majesty" },
+          { deva: "√रुद्", iast: "rud", meaning: "To roar fiercely (Rudra)" },
+          { deva: "√छिद्", iast: "chid", meaning: "To shatter illusions" },
+          { deva: "√भिद्", iast: "bhid", meaning: "To split cosmic egg" },
+          { deva: "√मृ", iast: "mṛ", meaning: "To undergo entropy / die" },
+          { deva: "√नश्", iast: "naś", meaning: "To vanish into nothingness" },
+          { deva: "√क्षय", iast: "kṣaya", meaning: "To erode slowly over time" },
+          { deva: "√बल", iast: "bala", meaning: "To force physical gravity" },
+          { deva: "√सह", iast: "saha", meaning: "To withstand extreme pressure" },
+          { deva: "√विज", iast: "vija", meaning: "To triumph over darkness" },
+          { deva: "√शक्", iast: "śak", meaning: "To unleash potential energy (Śakti)" },
+          { deva: "√उग्र", iast: "ugra", meaning: "To surge with untamed power" },
+          { deva: "√तर्ज़", iast: "tarza", meaning: "To shake with authority" },
+          { deva: "√दण्ड", iast: "daṇḍa", meaning: "To enforce karmic order" },
+          { deva: "√भञ्ज", iast: "bhañj", meaning: "To shatter a system" },
+          { deva: "√मथ", iast: "matha", meaning: "To grind down to dust" },
+          { deva: "√लू", iast: "lū", meaning: "To cut short an era" },
+          { deva: "√घस", iast: "ghasa", meaning: "To devour like a black hole" }
+        ]
+      },
+      {
+        catId: "Ships",
+        catName: "13. Ships, Navigation, & Safe Passage",
+        roots: [
+          { deva: "√तर", iast: "tara", meaning: "To navigate across a barrier" },
+          { deva: "√नू", iast: "nū", meaning: "To lead across a vast expanse" },
+          { deva: "√पार्", iast: "pār", meaning: "To reach opposite shore" },
+          { deva: "√साध", iast: "sādha", meaning: "To direct vessel to destination" },
+          { deva: "√नी", iast: "nī", meaning: "To steer / pilot a crew" },
+          { deva: "√वह", iast: "vah", meaning: "To transport by sea/wind" },
+          { deva: "√सेव्", iast: "sev", meaning: "To hug the coastline" },
+          { deva: "√रक्ष्", iast: "rakṣ", meaning: "To protect ship from storms" },
+          { deva: "√लक्ष्", iast: "lakṣ", meaning: "To spot distant lighthouse" },
+          { deva: "√दिश्", iast: "diś", meaning: "To navigate by stars" },
+          { deva: "√आस्", iast: "ās", meaning: "To anchor / wait out storm" },
+          { deva: "√ग्रन्थ्", iast: "granth", meaning: "To weave rigging and sails" },
+          { deva: "√बन्ध्", iast: "bandh", meaning: "To moor ship to dock" },
+          { deva: "√मुच्", iast: "muc", meaning: "To cast off / set sail" },
+          { deva: "√कॢप्", iast: "kḷp", meaning: "To prepare vessel for voyage" },
+          { deva: "√अवलोक्", iast: "avalok", meaning: "To scan horizon for land" },
+          { deva: "√ध्रुव", iast: "dhruva", meaning: "To fix position by North Star" },
+          { deva: "√सन्तर", iast: "santara", meaning: "To sail in a fleet" },
+          { deva: "√यान", iast: "yāna", meaning: "To sail a craft" },
+          { deva: "√अध्वन्", iast: "adhvan", meaning: "To embark on long voyage" }
+        ]
+      },
+      {
+        catId: "Propulsion",
+        catName: "14. Winds, Sails, & Propulsion",
+        roots: [
+          { deva: "√वा", iast: "vā", meaning: "To fill the sails fiercely" },
+          { deva: "√ईर", iast: "īra", meaning: "To impel with wind power" },
+          { deva: "√प्रेर", iast: "prera", meaning: "To thrust ship across currents" },
+          { deva: "√मथ", iast: "matha", meaning: "To agitate air / cause gale" },
+          { deva: "√त्वर्", iast: "tvar", meaning: "To speed up progress" },
+          { deva: "√सृ", iast: "sṛ", meaning: "To glide with tide" },
+          { deva: "√नुद्", iast: "nud", meaning: "To propel a rudder" },
+          { deva: "√धून", iast: "dhūna", meaning: "To cause ship to pitch/roll" },
+          { deva: "√समीर", iast: "samīra", meaning: "To catch favorable breeze" },
+          { deva: "√कम्प", iast: "kampa", meaning: "To shudder in heavy seas" },
+          { deva: "√भ्रम्", iast: "bhram", meaning: "To drift off course" },
+          { deva: "√पव", iast: "pava", meaning: "To blow clean sea wind" },
+          { deva: "√रेज़", iast: "reza", meaning: "To howl like monsoon" },
+          { deva: "√अञ्च्", iast: "añc", meaning: "To tack into the wind" },
+          { deva: "√उत्पत", iast: "utpata", meaning: "To crest over massive wave" },
+          { deva: "√आस्फोट", iast: "āsphoṭa", meaning: "To flap sails in storm" },
+          { deva: "√द्रु", iast: "dru", meaning: "To course with river current" },
+          { deva: "√वेग", iast: "vega", meaning: "To surge with high velocity" },
+          { deva: "√ऋ", iast: "ṛ", meaning: "To move toward open ocean" },
+          { deva: "√ह्रस्", iast: "hras", meaning: "To slacken speed / lower sail" }
+        ]
+      },
+      {
+        catId: "Landings",
+        catName: "15. Landings, Horizons, & Continents",
+        roots: [
+          { deva: "√पत्", iast: "pat", meaning: "To descend to a harbor" },
+          { deva: "√स्था", iast: "sthā", meaning: "To drop anchor at port" },
+          { deva: "√विश", iast: "viś", meaning: "To enter bay / come ashore" },
+          { deva: "√पद्", iast: "pad", meaning: "To step onto solid ground" },
+          { deva: "√स्पृश्", iast: "spṛś", meaning: "To touch the shore" },
+          { deva: "√लभ्", iast: "labh", meaning: "To attain destination" },
+          { deva: "√अञ्ज", iast: "añja", meaning: "To spot shoreline ahead" },
+          { deva: "√आसाद्", iast: "āsād", meaning: "To reach harbor safely" },
+          { deva: "√खन्", iast: "khan", meaning: "To ground ship on sandbar" },
+          { deva: "√मुद", iast: "muda", meaning: "To rejoice surviving crossing" },
+          { deva: "√विश्राम", iast: "viśrāma", meaning: "To rest after journey" },
+          { deva: "√निवास", iast: "nivāsa", meaning: "To settle on new continent" },
+          { deva: "√सीमा", iast: "sīmā", meaning: "To mark edge of known world" },
+          { deva: "√कूल", iast: "kūla", meaning: "To make a river bank" },
+          { deva: "√अवगाह", iast: "avagāha", meaning: "To wade ashore" },
+          { deva: "√तीर", iast: "tīra", meaning: "To conclude journey at edge" },
+          { deva: "√प्रविश", iast: "praviś", meaning: "To venture into new land" },
+          { deva: "√दर्शन", iast: "darśana", meaning: "To lay eyes on new island" },
+          { deva: "√अवेक्ष", iast: "avekṣ", meaning: "To survey new coastline" },
+          { deva: "√शान्त", iast: "śānta", meaning: "To arrive when storm settles" }
+        ]
+      },
+      {
+        catId: "Interstellar",
+        catName: "16. Spatial & Interstellar Paths",
+        roots: [
+          { deva: "√उत्पत", iast: "utpata", meaning: "To launch into orbit" },
+          { deva: "√डी", iast: "ḍī", meaning: "To soar through space" },
+          { deva: "√नभ", iast: "nabha", meaning: "To vaporize into great void" },
+          { deva: "√आलोक्", iast: "ālok", meaning: "To travel past vision field" },
+          { deva: "√परिपत्", iast: "paripat", meaning: "To orbit around a planet" },
+          { deva: "√अन्तर", iast: "antara", meaning: "To cross void between worlds" },
+          { deva: "√अन्", iast: "an", meaning: "To survive in atmosphere" },
+          { deva: "√व्याप्", iast: "vyāp", meaning: "To expand across all space" },
+          { deva: "√आकाश्", iast: "ākāś", meaning: "To flash out of deep void" },
+          { deva: "√स्फुर्", iast: "sphur", meaning: "To shoot like a meteor" },
+          { deva: "√तन्", iast: "tan", meaning: "To span a vast distance" },
+          { deva: "√संया", iast: "saṃyā", meaning: "To travel together across galaxies" },
+          { deva: "√उत्क्रम", iast: "utkram", meaning: "To break planetary gravity" },
+          { deva: "√परिभ्रम्", iast: "paribhram", meaning: "To circle gravity well" },
+          { deva: "√अती", iast: "atī", meaning: "To cross into unknown territory" },
+          { deva: "√शून्या", iast: "śūnyā", meaning: "To slip into empty space" },
+          { deva: "√अम", iast: "ama", meaning: "To charge violently through stars" },
+          { deva: "√व्यूह्", iast: "vyūh", meaning: "To shift stellar formations" },
+          { deva: "√ज्योति", iast: "jyoti", meaning: "To move at speed of light" },
+          { deva: "√अब्ध", iast: "abdha", meaning: "To cross ocean of space" }
+        ]
+      }
+    ];
+
+    // =========================================================================
+    // 2. UPASARGA EXPERIMENTAL LAB DATA (√gam & √vṛt)
+    // =========================================================================
+    const LAB_DATA = {
+      'gam': {
+        name: '√गम् (gam)',
+        meaning: 'To go / move',
+        prefixes: [
+          {
+            upa: 'anu',
+            deva: 'अनुगच्छति',
+            iast: 'Anugacchati',
+            logic: 'Anu (after/behind) + Gam (to go)',
+            translation: 'To follow / go after someone',
+            note: 'By physically or metaphorically going behind someone, you follow their path.'
+          },
+          {
+            upa: 'prati',
+            deva: 'प्रतिगच्छति',
+            iast: 'Pratigacchati',
+            logic: 'Prati (back/against) + Gam (to go)',
+            translation: 'To return / go back',
+            note: 'Going back against your initial direction means returning home.'
+          },
+          {
+            upa: 'ava',
+            deva: 'अवगच्छति',
+            iast: 'Avagacchati',
+            logic: 'Ava (down/deep) + Gam (to go)',
+            translation: 'To understand / comprehend',
+            note: 'Going down deeply into a topic allows your mind to wrap around and comprehend it.'
+          }
+        ]
+      },
+      'vrt': {
+        name: '√वृत् (vṛt)',
+        meaning: 'To turn / revolve / exist',
+        prefixes: [
+          {
+            upa: 'pra',
+            deva: 'प्रवर्तते',
+            iast: 'Pravartate',
+            logic: 'Pra (forward) + Vṛt (to turn)',
+            translation: 'To engage / progress / set in motion',
+            note: 'Turning forward launches active engagement in worldly action (Pravṛtti).'
+          },
+          {
+            upa: 'ni',
+            deva: 'निवर्तते',
+            iast: 'Nivartate',
+            logic: 'Ni (inward/down) + Vṛt (to turn)',
+            translation: 'To retreat inward / cease / attain peace',
+            note: 'Turning your energy inward leads to cessation of worldly desire and liberation (Nivṛtti).'
+          },
+          {
+            upa: 'prati',
+            deva: 'प्रतिवर्तते',
+            iast: 'Prativartate',
+            logic: 'Prati (back/against) + Vṛt (to turn)',
+            translation: 'To turn back / revert direction',
+            note: 'Reversing the turning wheel brings you back to origin.'
+          }
+        ]
+      }
+    };
+
+    // Phoneme datasets
+    const VOWELS = [
+      { char: 'a', deva: 'अ', type: 'Svara', sthana: 'Kaṇṭhya (Throat)', effort: 'Vivṛta', matra: 1, class: 'Hrasva' },
+      { char: 'ā', deva: 'आ', type: 'Svara', sthana: 'Kaṇṭhya (Throat)', effort: 'Vivṛta', matra: 2, class: 'Dīrgha (Vṛddhi)' },
+      { char: 'i', deva: 'इ', type: 'Svara', sthana: 'Tālavya (Palatal)', effort: 'Vivṛta', matra: 1, class: 'Hrasva' },
+      { char: 'ī', deva: 'ई', type: 'Svara', sthana: 'Tālavya (Palatal)', effort: 'Vivṛta', matra: 2, class: 'Dīrgha' },
+      { char: 'u', deva: 'उ', type: 'Svara', sthana: 'Oṣṭhya (Labial)', effort: 'Vivṛta', matra: 1, class: 'Hrasva' },
+      { char: 'ū', deva: 'ऊ', type: 'Svara', sthana: 'Oṣṭhya (Labial)', effort: 'Vivṛta', matra: 2, class: 'Dīrgha' },
+      { char: 'ṛ', deva: 'ऋ', type: 'Svara', sthana: 'Mūrdhanya (Retroflex)', effort: 'Vivṛta', matra: 1, class: 'Hrasva' },
+      { char: 'ṝ', deva: 'ॠ', type: 'Svara', sthana: 'Mūrdhanya (Retroflex)', effort: 'Vivṛta', matra: 2, class: 'Dīrgha' },
+      { char: 'ḷ', deva: 'ऌ', type: 'Svara', sthana: 'Dantya (Dental)', effort: 'Vivṛta', matra: 1, class: 'Hrasva' },
+      { char: 'e', deva: 'ए', type: 'Svara', sthana: 'Kaṇṭhatālavya (Palato-Velar)', effort: 'Vivṛta', matra: 2, class: 'Dīrgha (Guṇa)' },
+      { char: 'ai', deva: 'ऐ', type: 'Svara', sthana: 'Kaṇṭhatālavya (Palato-Velar)', effort: 'Vivṛta', matra: 2, class: 'Dīrgha (Vṛddhi)' },
+      { char: 'o', deva: 'ओ', type: 'Svara', sthana: 'Kaṇṭhoṣṭhya (Labio-Velar)', effort: 'Vivṛta', matra: 2, class: 'Dīrgha (Guṇa)' },
+      { char: 'au', deva: 'औ', type: 'Svara', sthana: 'Kaṇṭhoṣṭhya (Labio-Velar)', effort: 'Vivṛta', matra: 2, class: 'Dīrgha (Vṛddhi)' },
+      { char: 'aṃ', deva: 'अं', type: 'Anusvāra', sthana: 'Nāsikā (Nasal)', effort: 'Anunāsika', matra: 1, class: 'Ayogavāha' },
+      { char: 'aḥ', deva: 'अः', type: 'Visarga', sthana: 'Kaṇṭhya (Throat)', effort: 'Svarita', matra: 1, class: 'Ayogavāha' }
+    ];
+
+    const CONSONANT_VARGAS = [
+      {
+        name: 'Ka-varga (Velar / Kaṇṭhya)',
+        items: [
+          { char: 'ka', deva: 'क' }, { char: 'kha', deva: 'ख' }, { char: 'ga', deva: 'ग' }, { char: 'gha', deva: 'घ' }, { char: 'ṅa', deva: 'ङ' }
+        ]
+      },
+      {
+        name: 'Ca-varga (Palatal / Tālavya)',
+        items: [
+          { char: 'ca', deva: 'च' }, { char: 'cha', deva: 'छ' }, { char: 'ja', deva: 'ज' }, { char: 'jha', deva: 'झ' }, { char: 'ña', deva: 'ञ' }
+        ]
+      },
+      {
+        name: 'Ṭa-varga (Retroflex / Mūrdhanya)',
+        items: [
+          { char: 'ṭa', deva: 'ट' }, { char: 'ṭha', deva: 'ठ' }, { char: 'ḍa', deva: 'ड' }, { char: 'ḍha', deva: 'ढ' }, { char: 'ṇa', deva: 'ण' }
+        ]
+      },
+      {
+        name: 'Ta-varga (Dental / Dantya)',
+        items: [
+          { char: 'ta', deva: 'त' }, { char: 'tha', deva: 'थ' }, { char: 'da', deva: 'द' }, { char: 'dha', deva: 'ध' }, { char: 'na', deva: 'न' }
+        ]
+      },
+      {
+        name: 'Pa-varga (Labial / Oṣṭhya)',
+        items: [
+          { char: 'pa', deva: 'प' }, { char: 'pha', deva: 'फ' }, { char: 'ba', deva: 'ब' }, { char: 'bha', deva: 'भ' }, { char: 'ma', deva: 'म' }
+        ]
+      },
+      {
+        name: 'Antastha & Ūṣman',
+        items: [
+          { char: 'ya', deva: 'य' }, { char: 'ra', deva: 'र' }, { char: 'la', deva: 'ल' }, { char: 'va', deva: 'व' },
+          { char: 'śa', deva: 'श' }, { char: 'ṣa', deva: 'ष' }, { char: 'sa', deva: 'स' }, { char: 'ha', deva: 'ह' }
+        ]
+      }
+    ];
+
+    const AMARAKOSHA_SYNONYMS = [
+      {
+        concept: 'Fire (Agni / अग्नि)',
+        english: 'Fire, Flame, Universal Energy',
+        count: '34 Recognized Synonyms in Kosha',
+        words: [
+          { deva: 'अग्निः', iast: 'Agniḥ', note: 'Primary root sound' },
+          { deva: 'पावकः', iast: 'Pāvakaḥ', note: 'The Purifier' },
+          { deva: 'वह्निः', iast: 'Vahniḥ', note: 'The Bearer of Offerings' },
+          { deva: 'अनलः', iast: 'Analaḥ', note: 'Insatiable' },
+          { deva: 'वैश्वानरः', iast: 'Vaiśvānaraḥ', note: 'Universal consciousness' }
+        ]
+      },
+      {
+        concept: 'Water (Jala / जल)',
+        english: 'Water, Liquid, Life Fluid',
+        count: '27 Recognized Synonyms in Kosha',
+        words: [
+          { deva: 'जलम्', iast: 'Jalam', note: 'Primary substance' },
+          { deva: 'तोयम्', iast: 'Toyam', note: 'Satisfies thirst' },
+          { deva: 'अम्भाः', iast: 'Ambhāḥ', note: 'Cosmic ocean fluid' },
+          { deva: 'वारि', iast: 'Vāri', note: 'Enveloping liquid' },
+          { deva: 'पयः', iast: 'Payaḥ', note: 'Nourishing fluid' }
+        ]
+      },
+      {
+        concept: 'Sky / Space (Ākāśa / आकाश)',
+        english: 'Ether, Sky, Unbounded Void',
+        count: '19 Recognized Synonyms in Kosha',
+        words: [
+          { deva: 'आकाशः', iast: 'Ākāśaḥ', note: 'Luminous void' },
+          { deva: 'गगनम्', iast: 'Gaganam', note: 'Celestial canopy' },
+          { deva: 'खम्', iast: 'Kham', note: 'Zero point aperture' },
+          { deva: 'अन्तरिक्षम्', iast: 'Antarikṣam', note: 'Intermediate realm' },
+          { deva: 'व्योम', iast: 'Vyoma', note: 'All-pervading space' }
+        ]
+      }
+    ];
+
+    const SCHEMA_PAYLOADS = {
+      '1.1.1': {
+        "$schema": "https://json-schema.org/draft-07/schema#",
+        "title": "PaninianRule_1_1_1_VrddhiDefinition",
+        "ruleId": "1.1.1",
+        "sutra": "वृद्धिरादैच्",
+        "sutraIAST": "vṛddhirādaic",
+        "ruleType": "saṃjñā_sūtra (algebraic definition)",
+        "targetPhonemes": [
+          { "character": "ā", "length": "dīrgha", "matra": 2 },
+          { "character": "ai", "length": "dīrgha", "matra": 2 },
+          { "character": "au", "length": "dīrgha", "matra": 2 }
+        ],
+        "assignedTerm": "Vṛddhi",
+        "executionPrecedence": 1
+      },
+      '1.1.2': {
+        "$schema": "https://json-schema.org/draft-07/schema#",
+        "title": "PaninianRule_1_1_2_GunaDefinition",
+        "ruleId": "1.1.2",
+        "sutra": "अदेङ्गुणः",
+        "sutraIAST": "adeṅ guṇaḥ",
+        "ruleType": "saṃjñā_sūtra",
+        "targetPhonemes": [
+          { "character": "a", "length": "hrasva", "matra": 1 },
+          { "character": "e", "length": "dīrgha", "matra": 2 },
+          { "character": "o", "length": "dīrgha", "matra": 2 }
+        ],
+        "assignedTerm": "Guṇa",
+        "executionPrecedence": 2
+      },
+      '6.1.88': {
+        "$schema": "https://json-schema.org/draft-07/schema#",
+        "title": "PaninianRule_6_1_88_VrddhiSandhi",
+        "ruleId": "6.1.88",
+        "sutra": "वृद्धिरेचि",
+        "sutraIAST": "vṛddhir eci",
+        "ruleType": "vidhi_sūtra (operational transformation)",
+        "condition": "a/ā + e/ai/o/au → Vṛddhi vowel",
+        "example": "tava + eva → tavaiva",
+        "executionPriority": 10
+      },
+      '7.2.115': {
+        "$schema": "https://json-schema.org/draft-07/schema#",
+        "title": "PaninianRule_7_2_115_TaddhitaInitialVowel",
+        "ruleId": "7.2.115",
+        "sutra": "अचो ञ्णिति",
+        "sutraIAST": "aco ñniti",
+        "ruleType": "vidhi_sūtra",
+        "operation": "Upgrades initial vowel of base noun to Vṛddhi when adding ñ/ṇ suffixes",
+        "example": "śiva + a (aṇ) → śaiva",
+        "executionPriority": 15
+      }
+    };
+
+    // State variables
+    let currentLabDhatu = 'gam';
+    let currentLabUpa = 'anu';
+    let assembledPieces = [];
+    let currentSchemaRule = '1.1.1';
+
+    // INITIALIZATION ON PAGE LOAD
+    window.onload = function() {
+      initStarfield();
+      renderMasterDhatus(MASTER_DHATU_DATA);
+      selectLabDhatu('gam');
+      renderPhonemeGrids();
+      renderSynonyms(AMARAKOSHA_SYNONYMS);
+      selectSchemaRule('1.1.1');
+    };
+
+    // STARFIELD CANVAS BACKGROUND ENGINE
+    function initStarfield() {
+      const canvas = document.getElementById('starfieldCanvas');
+      const ctx = canvas.getContext('2d');
+      let width = canvas.width = window.innerWidth;
+      let height = canvas.height = window.innerHeight;
+
+      window.addEventListener('resize', () => {
+        width = canvas.width = window.innerWidth;
+        height = canvas.height = window.innerHeight;
+      });
+
+      const stars = [];
+      const numStars = 130;
+      for (let i = 0; i < numStars; i++) {
+        stars.push({
+          x: Math.random() * width,
+          y: Math.random() * height,
+          radius: Math.random() * 1.5 + 0.5,
+          color: ['#00f3ff', '#ffd700', '#bd00ff', '#10b981', '#ffffff'][Math.floor(Math.random() * 5)],
+          vx: (Math.random() - 0.5) * 0.25,
+          vy: (Math.random() - 0.5) * 0.25,
+          alpha: Math.random()
+        });
+      }
+
+      function animate() {
+        ctx.clearRect(0, 0, width, height);
+
+        // Draw faint cosmic math circle
+        ctx.strokeStyle = 'rgba(0, 243, 255, 0.03)';
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.arc(width / 2, height / 2, Math.min(width, height) * 0.38, 0, Math.PI * 2);
+        ctx.stroke();
+
+        stars.forEach(star => {
+          star.x += star.vx;
+          star.y += star.vy;
+
+          if (star.x < 0) star.x = width;
+          if (star.x > width) star.x = 0;
+          if (star.y < 0) star.y = height;
+          if (star.y > height) star.y = 0;
+
+          ctx.save();
+          ctx.globalAlpha = star.alpha;
+          ctx.fillStyle = star.color;
+          ctx.beginPath();
+          ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.restore();
+        });
+
+        requestAnimationFrame(animate);
+      }
+      animate();
+    }
+
+    // TAB SWITCHING LOGIC
+    function switchTab(tabId) {
+      document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+      document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+
+      document.getElementById(tabId).classList.remove('hidden');
+      document.getElementById('btn-' + tabId).classList.add('active');
+    }
+
+    // 1. MASTER DHĀTU MATRIX RENDER & FILTER
+    function renderMasterDhatus(dataset) {
+      const container = document.getElementById('masterDhatuCategoryList');
+      if (dataset.length === 0) {
+        container.innerHTML = `<p class="text-xs font-mono text-slate-400 p-4">No matching Dhātus found for your search query.</p>`;
+        return;
+      }
+
+      container.innerHTML = dataset.map(cat => `
+        <div class="rounded-2xl bg-cosmic-panel/80 border border-cosmic-border p-5 space-y-3 shadow-lg">
+          <div class="flex items-center justify-between border-b border-cosmic-border pb-2">
+            <h3 class="text-sm font-bold text-cosmic-gold font-mono flex items-center gap-2">
+              <i class="fa-solid fa-folder-open text-cosmic-cyan"></i> ${cat.catName}
+            </h3>
+            <span class="text-[10px] font-mono text-slate-400">${cat.roots.length} Roots</span>
+          </div>
+          <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2.5">
+            ${cat.roots.map(r => `
+              <div class="p-2.5 rounded-xl bg-cosmic-void border border-cosmic-border hover:border-cosmic-cyan transition-all font-mono">
+                <span class="text-base font-serif font-bold text-cosmic-cyan block">${r.deva}</span>
+                <span class="text-[10px] text-cosmic-gold block font-semibold">${r.iast}</span>
+                <span class="text-[10px] text-slate-400 block truncate" title="${r.meaning}">${r.meaning}</span>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function filterMasterDhatus() {
+      const query = document.getElementById('dhatuSearchInput').value.toLowerCase().trim();
+      const selectedCat = document.getElementById('dhatuCategorySelect').value;
+
+      let filtered = MASTER_DHATU_DATA;
+
+      if (selectedCat !== 'ALL') {
+        filtered = filtered.filter(c => c.catId === selectedCat);
+      }
+
+      if (query) {
+        filtered = filtered.map(cat => {
+          const matchingRoots = cat.roots.filter(r => 
+            r.deva.toLowerCase().includes(query) ||
+            r.iast.toLowerCase().includes(query) ||
+            r.meaning.toLowerCase().includes(query)
+          );
+          return { ...cat, roots: matchingRoots };
+        }).filter(cat => cat.roots.length > 0);
+      }
+
+      renderMasterDhatus(filtered);
+    }
+
+    // 2. UPASARGA EXPERIMENTAL LAB LOGIC
+    function selectLabDhatu(rootKey) {
+      currentLabDhatu = rootKey;
+      
+      // Update toggle buttons
+      document.getElementById('labBtn-gam').className = rootKey === 'gam' 
+        ? 'p-3 rounded-xl bg-cosmic-void border border-cosmic-cyan text-cosmic-cyan font-bold text-left hover:border-cosmic-cyan transition-all'
+        : 'p-3 rounded-xl bg-cosmic-void border border-cosmic-border text-slate-300 text-left hover:border-cosmic-cyan transition-all';
+      
+      document.getElementById('labBtn-vrt').className = rootKey === 'vrt'
+        ? 'p-3 rounded-xl bg-cosmic-void border border-cosmic-cyan text-cosmic-cyan font-bold text-left hover:border-cosmic-cyan transition-all'
+        : 'p-3 rounded-xl bg-cosmic-void border border-cosmic-border text-slate-300 text-left hover:border-cosmic-cyan transition-all';
+
+      const data = LAB_DATA[rootKey];
+      document.getElementById('labRootTitle').innerText = data.name;
+
+      // Render prefix selector buttons
+      const btnContainer = document.getElementById('labUpasargaButtons');
+      btnContainer.innerHTML = data.prefixes.map(p => `
+        <button onclick="selectLabPrefix('${p.upa}')" id="upaLabBtn-${p.upa}" class="upa-lab-btn p-2.5 rounded-xl bg-cosmic-void border border-cosmic-border text-left hover:border-cosmic-cyan transition-all font-mono">
+          <span class="text-xs font-serif font-bold text-cosmic-gold block">+ ${p.upa.toUpperCase()}</span>
+          <span class="text-[10px] text-slate-400 block">${p.deva}</span>
+        </button>
+      `).join('');
+
+      selectLabPrefix(data.prefixes[0].upa);
+    }
+
+    function selectLabPrefix(upaKey) {
+      currentLabUpa = upaKey;
+      const data = LAB_DATA[currentLabDhatu];
+      const match = data.prefixes.find(p => p.upa === upaKey) || data.prefixes[0];
+
+      // Highlight button
+      document.querySelectorAll('.upa-lab-btn').forEach(b => {
+        b.classList.remove('border-cosmic-cyan', 'bg-cosmic-panel');
+        b.classList.add('border-cosmic-border', 'bg-cosmic-void');
+      });
+      const activeBtn = document.getElementById(`upaLabBtn-${upaKey}`);
+      if (activeBtn) {
+        activeBtn.classList.remove('border-cosmic-border', 'bg-cosmic-void');
+        activeBtn.classList.add('border-cosmic-cyan', 'bg-cosmic-panel');
+      }
+
+      document.getElementById('labFormulaText').innerText = `${match.upa.toUpperCase()} + ${data.name} → ${match.iast}`;
+      document.getElementById('labOutputDeva').innerText = match.deva;
+      document.getElementById('labOutputIAST').innerText = match.iast;
+      document.getElementById('labLiteralLogic').innerText = match.logic;
+      document.getElementById('labEnglishMeaning').innerText = match.translation;
+      document.getElementById('labPhilosophicalNote').innerText = match.note;
+
+      // Render spectrum list
+      const specContainer = document.getElementById('labSpectrumCards');
+      specContainer.innerHTML = data.prefixes.map(p => `
+        <div class="p-2.5 rounded-lg bg-cosmic-void border border-cosmic-border space-y-0.5">
+          <span class="text-cosmic-cyan font-serif font-bold block">${p.deva}</span>
+          <span class="text-slate-400 text-[10px] block font-semibold">${p.iast}</span>
+          <span class="text-emerald-400 text-[10px] block truncate">${p.translation}</span>
+        </div>
+      `).join('');
+    }
+
+    // 3. SENTENCE BUILDER CHALLENGE LOGIC
+    function addSentencePiece(word) {
+      if (assembledPieces.length < 3) {
+        assembledPieces.push(word);
+        updateSentenceDisplay();
+      }
+    }
+
+    function clearSentencePieces() {
+      assembledPieces = [];
+      updateSentenceDisplay();
+    }
+
+    function updateSentenceDisplay() {
+      const display = document.getElementById('userAssembledSentence');
+      const feedback = document.getElementById('userSentenceFeedback');
+
+      if (assembledPieces.length === 0) {
+        display.innerText = '_';
+        feedback.innerText = 'Click the pieces above in Subject + Object + Verb order';
+        feedback.className = 'text-[10px] text-slate-400 block';
+        return;
+      }
+
+      const currentSentence = assembledPieces.join(' ');
+      display.innerText = currentSentence;
+
+      if (assembledPieces.length === 3) {
+        if (assembledPieces[0] === 'आत्मा' && assembledPieces[1] === 'समुद्रम्' && assembledPieces[2] === 'संतरति') {
+          feedback.innerText = '✓ Flawless Sanskrit Syntax! Subject (Ātmā) + Object (Samudram) + Verb (Saṃtarati).';
+          feedback.className = 'text-[10px] text-emerald-400 font-bold block';
+        } else {
+          feedback.innerText = 'Grammatically valid (Sanskrit word order is flexible), but standard SOV order is "आत्मा समुद्रम् संतरति".';
+          feedback.className = 'text-[10px] text-cosmic-gold block';
+        }
+      } else {
+        feedback.innerText = `Assembled ${assembledPieces.length}/3 words...`;
+        feedback.className = 'text-[10px] text-cosmic-cyan block';
+      }
+    }
+
+    // 4. PHONEME GRID RENDER
+    function renderPhonemeGrids() {
+      const vowelGrid = document.getElementById('vowelGrid');
+      vowelGrid.innerHTML = VOWELS.map(v => `
+        <button onclick='inspectPhoneme(${JSON.stringify(v)})' class="p-2.5 rounded-xl bg-cosmic-void hover:bg-cosmic-panel border border-cosmic-border hover:border-cosmic-gold text-center font-mono transition-all group">
+          <span class="text-base font-serif font-bold text-cosmic-gold block group-hover:scale-110 transition-transform">${v.deva}</span>
+          <span class="text-[10px] text-slate-400 block">${v.char}</span>
+        </button>
+      `).join('');
+
+      const vargaContainer = document.getElementById('consonantVargaContainer');
+      vargaContainer.innerHTML = CONSONANT_VARGAS.map(varga => `
+        <div class="space-y-1.5">
+          <span class="text-[11px] font-mono text-slate-400 font-semibold">${varga.name}:</span>
+          <div class="grid grid-cols-5 sm:grid-cols-8 gap-2">
+            ${varga.items.map(c => `
+              <button onclick="inspectConsonant('${c.char}', '${c.deva}')" class="p-2 rounded-lg bg-cosmic-void hover:bg-cosmic-panel border border-cosmic-border hover:border-cosmic-cyan text-center font-mono transition-all">
+                <span class="text-sm font-serif font-bold text-cosmic-cyan block">${c.deva}</span>
+                <span class="text-[10px] text-slate-400 block">${c.char}</span>
+              </button>
+            `).join('')}
+          </div>
+        </div>
+      `).join('');
+
+      inspectPhoneme(VOWELS[1]);
+    }
+
+    function inspectPhoneme(v) {
+      document.getElementById('selectedPhonemeCode').innerText = `Svara Code: ${v.char.toUpperCase()}`;
+      document.getElementById('inspDeva').innerText = `${v.char} (${v.deva})`;
+      document.getElementById('inspSthana').innerText = v.sthana;
+      document.getElementById('inspEffort').innerText = v.effort;
+      document.getElementById('inspClass').innerText = `${v.class} (${v.matra} Mātrā${v.matra > 1 ? 's' : ''})`;
+    }
+
+    function inspectConsonant(char, deva) {
+      document.getElementById('selectedPhonemeCode').innerText = `Vyañjana Code: ${char.toUpperCase()}`;
+      document.getElementById('inspDeva').innerText = `${char} (${deva})`;
+      document.getElementById('inspSthana').innerText = "Consonant Articulation";
+      document.getElementById('inspEffort').innerText = "Spṛṣṭa (Contact effort)";
+      document.getElementById('inspClass').innerText = "Vyañjana (0.5 Mātrā)";
+    }
+
+    // 5. AMARAKOSHA SYNONYMS
+    function renderSynonyms(list) {
+      const container = document.getElementById('synonymCardsContainer');
+      container.innerHTML = list.map(item => `
+        <div class="p-4 rounded-xl bg-cosmic-void border border-cosmic-border space-y-3">
+          <div class="flex items-center justify-between border-b border-cosmic-border/60 pb-2">
+            <h4 class="text-xs font-bold text-cosmic-gold font-mono">${item.concept}</h4>
+            <span class="text-[10px] font-mono text-cosmic-cyan">${item.count}</span>
+          </div>
+          <div class="space-y-1.5 font-mono text-xs">
+            ${item.words.map(w => `
+              <div class="flex justify-between items-center">
+                <span class="text-slate-200 font-serif font-bold text-sm">${w.deva} <span class="text-xs font-mono font-normal text-slate-400">(${w.iast})</span></span>
+                <span class="text-[10px] text-slate-500">${w.note}</span>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function filterSynonyms(query) {
+      const q = query.toLowerCase().trim();
+      if (!q) {
+        renderSynonyms(AMARAKOSHA_SYNONYMS);
+        return;
+      }
+      const filtered = AMARAKOSHA_SYNONYMS.filter(item => 
+        item.concept.toLowerCase().includes(q) || item.english.toLowerCase().includes(q)
+      );
+      renderSynonyms(filtered);
+    }
+
+    // 6. JSON SCHEMA TRANSDUCER LOGIC
+    function selectSchemaRule(ruleId) {
+      currentSchemaRule = ruleId;
+      
+      document.querySelectorAll('.sutra-btn').forEach(btn => {
+        btn.classList.remove('border-cosmic-cyan');
+        btn.classList.add('border-cosmic-border');
+      });
+      const selectedBtn = document.getElementById(`sutraBtn-${ruleId}`);
+      if (selectedBtn) {
+        selectedBtn.classList.remove('border-cosmic-border');
+        selectedBtn.classList.add('border-cosmic-cyan');
+      }
+
+      const payload = SCHEMA_PAYLOADS[ruleId];
+      document.getElementById('schemaTitleText').innerText = `Schema Output: Rule ${ruleId} (${payload.sutraIAST})`;
+      
+      const jsonStr = JSON.stringify(payload, null, 2);
+      document.getElementById('schemaJsonCodeView').innerHTML = highlightJsonSyntax(jsonStr);
+
+      const bytes = new Blob([jsonStr]).size;
+      document.getElementById('schemaByteSize').innerText = `Payload Size: ${bytes} bytes`;
+    }
+
+    function highlightJsonSyntax(json) {
+      json = json.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+      return json.replace(/("(\\u[a-zA-A0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g, function (match) {
+        let cls = 'json-number';
+        if (/^"/.test(match)) {
+          if (/:$/.test(match)) {
+            cls = 'json-key';
+          } else {
+            cls = 'json-string';
+          }
+        } else if (/true|false/.test(match)) {
+          cls = 'json-boolean';
+        } else if (/null/.test(match)) {
+          cls = 'json-null';
+        }
+        return '<span class="' + cls + '">' + match + '</span>';
+      });
+    }
+
+    function copySchemaPayload() {
+      const payload = SCHEMA_PAYLOADS[currentSchemaRule];
+      const str = JSON.stringify(payload, null, 2);
+
+      const dummy = document.createElement("textarea");
+      document.body.appendChild(dummy);
+      dummy.value = str;
+      dummy.select();
+      document.execCommand("copy");
+      document.body.removeChild(dummy);
+
+      showCosmicToast("Schema JSON copied to clipboard!");
+    }
+
+    function downloadSchemaReport() {
+      const payload = SCHEMA_PAYLOADS[currentSchemaRule];
+      const str = JSON.stringify(payload, null, 2);
+      const blob = new Blob([str], { type: "application/json" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `panini_rule_${currentSchemaRule}_schema.json`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+
+      showCosmicToast("Schema Research Report downloaded!");
+    }
+
+    function showCosmicToast(msg) {
+      const toast = document.getElementById("cosmicToast");
+      document.getElementById("cosmicToastMsg").innerText = msg;
+
+      toast.classList.remove("translate-y-20", "opacity-0");
+      toast.classList.add("translate-y-0", "opacity-100");
+
+      setTimeout(() => {
+        toast.classList.remove("translate-y-0", "opacity-100");
+        toast.classList.add("translate-y-20", "opacity-0");
+      }, 2500);
+    }
+  </script>
+</body>
+</html>
